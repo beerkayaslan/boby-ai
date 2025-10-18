@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Menu, X, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CreateCharacterModal } from "./create-character-modal";
-import { LogoutButton } from "./logout-button";
+import { UserProfile } from "./user-profile";
 
 interface Character {
   id: string;
@@ -96,9 +96,9 @@ export function Sidebar() {
         <CreateCharacterModal />
       </div>
 
-      {/* Logout */}
-      <div className="p-4 border-t">
-        <LogoutButton />
+      {/* User Profile */}
+      <div className="border-t">
+        <UserProfile />
       </div>
     </div>
   );
