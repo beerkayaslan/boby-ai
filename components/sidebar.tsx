@@ -49,10 +49,10 @@ export function Sidebar() {
   const SidebarContent = () => (
     <div className="flex flex-col h-full w-full">
       {/* Logo */}
-      <div className="p-4 flex items-center gap-2 border-b">
+      <Link href="/dashboard" className="p-4 flex items-center gap-2 border-b">
         <Sparkles className="h-6 w-6 text-primary" />
         <h1 className="text-xl font-bold">Character AI</h1>
-      </div>
+      </Link>
 
       {/* Characters Section */}
       <div className="px-4 py-3">
@@ -62,7 +62,7 @@ export function Sidebar() {
         </h2>
       </div>
       <ScrollArea className="flex-1 px-2">
-        <div className="space-y-1 pb-4">
+        <div className="space-y-1 pb-4 w-64">
           {characters.map((character) => (
             <Link key={character.id} href={`/dashboard/chat/${character.id}`}>
               <div
