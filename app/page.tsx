@@ -5,8 +5,13 @@ import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Sparkles, Users, Zap } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <main className="min-h-screen flex flex-col items-center">
       <div className="flex-1 w-full flex flex-col items-center">
@@ -41,21 +46,23 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Link href="/auth/sign-up">
+              <Link href={user ? "/dashboard" : "/auth/sign-up"}>
                 <Button size="lg" className="text-lg px-8 py-6">
                   Hemen Başla
                   <Zap className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/auth/login">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg px-8 py-6"
-                >
-                  Giriş Yap
-                </Button>
-              </Link>
+              {!user && (
+                <Link href={user ? "/dashboard" : "/auth/login"}>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-lg px-8 py-6"
+                  >
+                    {user ? "Hemen Başla" : "Giriş Yap"}
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </section>
@@ -118,9 +125,9 @@ export default function Home() {
               Ücretsiz hesap oluşturun ve yapay zeka destekli karakterlerle
               sohbet etmenin keyfini çıkarın
             </p>
-            <Link href="/auth/sign-up">
+            <Link href={user ? "/dashboard" : "/auth/sign-up"}>
               <Button size="lg" className="text-lg px-10 py-6">
-                Ücretsiz Kayıt Ol
+                {user ? "Dashboard'a Git" : "Ücretsiz Kayıt Ol"}
                 <Sparkles className="ml-2 h-5 w-5" />
               </Button>
             </Link>
