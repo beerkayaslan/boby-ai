@@ -53,7 +53,7 @@ export function UserProfile({ className }: UserProfileProps) {
   const handleLogout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.push("/auth/login");
+    router.push("/");
   };
 
   if (!userEmail) {
