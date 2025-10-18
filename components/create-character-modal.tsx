@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Upload } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Character {
@@ -35,12 +35,75 @@ export function CreateCharacterModal({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [greeting, setGreeting] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadError, setUploadError] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Lütfen bir resim dosyası seçin");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadError("Dosya boyutu 2MB'dan küçük olmalıdır");
+      return;
+    }
+
+    setUploadError("");
+    setAvatarFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveAvatar = () => {
+    setAvatarFile(null);
+    setAvatarPreview("");
+    setUploadError("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const uploadAvatar = async (userId: string): Promise<string> => {
+    if (!avatarFile) return "";
+
+    const supabase = createClient();
+    const fileExt = avatarFile.name.split(".").pop();
+    const fileName = `${userId}-${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(filePath, avatarFile, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("avatars").getPublicUrl(filePath);
+
+    return publicUrl;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setUploadError("");
 
     const supabase = createClient();
 
@@ -48,31 +111,41 @@ export function CreateCharacterModal({
       data: { user },
     } = await supabase.auth.getUser();
 
+    if (!user) {
+      setUploadError("Kullanıcı oturumu bulunamadı");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // TODO: Supabase'e karakter kaydetme işlemi
+      let uploadedAvatarUrl = "";
+      if (avatarFile) {
+        uploadedAvatarUrl = await uploadAvatar(user.id);
+      }
+
       const newCharacter = {
         name,
         description,
         greeting,
-        avatar_url: avatarUrl,
-        user_id: user?.id,
+        avatar_url: uploadedAvatarUrl,
+        user_id: user.id,
       };
-
-      // Simüle edilmiş kaydetme
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      onCharacterCreated?.(newCharacter);
 
       await addCharacterToSupabase(newCharacter);
 
-      // Formu temizle
+      onCharacterCreated?.(newCharacter);
+
       setName("");
       setDescription("");
       setGreeting("");
-      setAvatarUrl("");
+      setAvatarFile(null);
+      setAvatarPreview("");
       setOpen(false);
     } catch (error) {
       console.error("Karakter oluşturma hatası:", error);
+      setUploadError(
+        error instanceof Error ? error.message : "Bir hata oluştu"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -112,30 +185,37 @@ export function CreateCharacterModal({
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="avatar">Avatar URL</Label>
+              <Label htmlFor="avatar">Avatar</Label>
               <div className="flex gap-2">
                 <Input
+                  ref={fileInputRef}
                   id="avatar"
-                  placeholder="https://example.com/avatar.jpg"
-                  value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  className="cursor-pointer"
                 />
-                <Button type="button" variant="outline" size="icon">
-                  <Upload className="h-4 w-4" />
-                </Button>
+                {avatarFile && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={handleRemoveAvatar}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
-              {avatarUrl && (
+              {uploadError && (
+                <p className="text-sm text-red-500">{uploadError}</p>
+              )}
+              {avatarPreview && (
                 <div className="flex justify-center mt-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={avatarUrl}
+                    src={avatarPreview}
                     alt="Avatar preview"
                     className="w-20 h-20 rounded-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        "https://ui-avatars.com/api/?name=" +
-                        encodeURIComponent(name || "?");
-                    }}
                   />
                 </div>
               )}
