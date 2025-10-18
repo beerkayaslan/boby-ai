@@ -15,13 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Upload } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 interface Character {
   name: string;
   description: string;
   greeting: string;
   avatar_url: string;
-  created_at: string;
 }
 
 interface CreateCharacterModalProps {
@@ -42,6 +42,12 @@ export function CreateCharacterModal({
     e.preventDefault();
     setIsLoading(true);
 
+    const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     try {
       // TODO: Supabase'e karakter kaydetme işlemi
       const newCharacter = {
@@ -49,13 +55,15 @@ export function CreateCharacterModal({
         description,
         greeting,
         avatar_url: avatarUrl,
-        created_at: new Date().toISOString(),
+        user_id: user?.id,
       };
 
       // Simüle edilmiş kaydetme
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       onCharacterCreated?.(newCharacter);
+
+      await addCharacterToSupabase(newCharacter);
 
       // Formu temizle
       setName("");
@@ -68,6 +76,21 @@ export function CreateCharacterModal({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const addCharacterToSupabase = async (character: Character) => {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("characters")
+      .insert([character])
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   };
 
   return (
@@ -160,6 +183,7 @@ export function CreateCharacterModal({
             <Button
               type="submit"
               disabled={isLoading || !name || !description || !greeting}
+              onClick={handleSubmit}
             >
               {isLoading ? "Oluşturuluyor..." : "Oluştur"}
             </Button>
