@@ -31,13 +31,13 @@ export default function ChatPage() {
           .single();
 
         if (error) {
-          console.error("Karakter yüklenirken hata:", error);
+          console.log("Karakter yüklenirken hata:", error);
           return;
         }
 
         setCharacter(data);
       } catch (error) {
-        console.error("Beklenmeyen hata:", error);
+        console.log("Beklenmeyen hata:", error);
       } finally {
         setIsLoading(false);
       }

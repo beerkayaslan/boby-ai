@@ -128,7 +128,6 @@ export function CreateCharacterModal({
         description,
         greeting,
         avatar_url: uploadedAvatarUrl,
-        user_id: user.id,
       };
 
       await addCharacterToSupabase(newCharacter);
