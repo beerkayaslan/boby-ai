@@ -1,60 +1,74 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ChatInterface } from "@/components/chat-interface";
 import { CharacterInfoSidebar } from "@/components/character-info-sidebar";
+import { createClient } from "@/lib/supabase/client";
+
+interface Character {
+  id: string;
+  name: string;
+  avatar_url: string;
+  greeting: string;
+  description: string;
+}
 
 export default function ChatPage() {
   const params = useParams();
   const chatId = params.id as string;
+  const [character, setCharacter] = useState<Character | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  interface CharacterData {
-    id: string;
-    name: string;
-    avatar: string;
-    greeting: string;
-    description: string;
+  useEffect(() => {
+    const fetchCharacter = async () => {
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from("characters")
+          .select("*")
+          .eq("id", chatId)
+          .single();
+
+        if (error) {
+          console.error("Karakter yüklenirken hata:", error);
+          return;
+        }
+
+        setCharacter(data);
+      } catch (error) {
+        console.error("Beklenmeyen hata:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCharacter();
+  }, [chatId]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="animate-pulse space-y-4">
+          <div className="h-12 w-64 bg-muted rounded"></div>
+          <div className="h-8 w-48 bg-muted rounded"></div>
+        </div>
+      </div>
+    );
   }
 
-  // TODO: Supabase'den chat bilgilerini çek
-  // Şimdilik örnek veri
-  const mockCharacters: Record<string, CharacterData> = {
-    "1": {
-      id: "1",
-      name: "Einstein",
-      avatar: "https://ui-avatars.com/api/?name=Einstein&background=random",
-      greeting:
-        "Merhaba! Ben Albert Einstein. Fizik ve evren hakkında konuşalım!",
-      description:
-        "Ünlü fizikçi ve görelilik teorisinin yaratıcısı. Fizik, matematik ve evrenin gizemiyle ilgili derin konuşmalar yapabiliriz.",
-    },
-    "2": {
-      id: "2",
-      name: "Shakespeare",
-      avatar: "https://ui-avatars.com/api/?name=Shakespeare&background=random",
-      greeting:
-        "Olmak ya da olmamak, işte bütün mesele bu! Edebiyat ve sanat üzerine konuşalım.",
-      description:
-        "İngiliz şair ve oyun yazarı. Edebiyat, tiyatro ve insan doğası üzerine derinlemesine sohbetler edebiliriz.",
-    },
-    "3": {
-      id: "3",
-      name: "Marie Curie",
-      avatar: "https://ui-avatars.com/api/?name=Marie+Curie&background=random",
-      greeting:
-        "Merhaba! Ben Marie Curie. Bilim ve keşifler hakkında konuşalım!",
-      description:
-        "Nobel ödüllü bilim insanı ve radyoaktivitenin öncüsü. Bilim, araştırma ve kadın hakları hakkında konuşabiliriz.",
-    },
-  };
-
-  const character = mockCharacters[chatId] || {
-    id: chatId,
-    name: "AI Asistan",
-    avatar: "https://ui-avatars.com/api/?name=AI&background=random",
-    greeting: "Merhaba! Size nasıl yardımcı olabilirim?",
-    description: "Genel amaçlı AI asistanı",
-  };
+  if (!character) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold">Karakter bulunamadı</h2>
+          <p className="text-muted-foreground">
+            Bu karakter mevcut değil veya silinmiş olabilir.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full">
@@ -62,14 +76,14 @@ export default function ChatPage() {
         <ChatInterface
           characterId={character.id}
           characterName={character.name}
-          characterAvatar={character.avatar}
+          characterAvatar={character.avatar_url}
           characterGreeting={character.greeting}
         />
       </div>
       <CharacterInfoSidebar
         characterId={character.id}
         characterName={character.name}
-        characterAvatar={character.avatar}
+        characterAvatar={character.avatar_url}
         characterDescription={character.description}
         characterGreeting={character.greeting}
       />
