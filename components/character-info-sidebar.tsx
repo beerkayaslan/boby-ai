@@ -55,7 +55,7 @@ export function CharacterInfoSidebar({
   ]);
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full w-full">
       {/* Tabs */}
       <div className="flex border-b">
         <button

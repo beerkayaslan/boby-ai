@@ -80,7 +80,7 @@ export function ChatInterface({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full w-full">
       {/* Header */}
       <div className="border-b p-4 flex items-center gap-3">
         <Avatar className="h-10 w-10">

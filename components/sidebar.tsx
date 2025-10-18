@@ -47,7 +47,7 @@ export function Sidebar() {
   ]);
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full w-full">
       {/* Logo */}
       <div className="p-4 flex items-center gap-2 border-b">
         <Sparkles className="h-6 w-6 text-primary" />
