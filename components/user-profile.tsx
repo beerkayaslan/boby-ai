@@ -11,9 +11,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User as UserIcon } from "lucide-react";
+import {
+  LogOut,
+  User as UserIcon,
+  Moon,
+  Sun,
+  Laptop,
+  Palette,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 interface UserProfileProps {
   className?: string;
@@ -21,6 +34,7 @@ interface UserProfileProps {
 
 export function UserProfile({ className }: UserProfileProps) {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
@@ -99,6 +113,32 @@ export function UserProfile({ className }: UserProfileProps) {
             <UserIcon className="mr-2 h-4 w-4" />
             <span>{userEmail}</span>
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Palette className="mr-2 h-4 w-4" />
+              <span>Tema</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup
+                value={theme}
+                onValueChange={(e) => setTheme(e)}
+              >
+                <DropdownMenuRadioItem value="light">
+                  <Sun className="mr-2 h-4 w-4" />
+                  <span>Light</span>
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="dark">
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark</span>
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="system">
+                  <Laptop className="mr-2 h-4 w-4" />
+                  <span>System</span>
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={handleLogout}
