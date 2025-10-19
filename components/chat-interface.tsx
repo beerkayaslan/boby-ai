@@ -43,7 +43,13 @@ export function ChatInterface({
     existingConversationId
   );
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
+
+  // Otomatik scroll fonksiyonu
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // Geçmiş mesajları yükle
   useEffect(() => {
@@ -106,11 +112,10 @@ export function ChatInterface({
     loadMessages();
   }, [existingConversationId, characterGreeting, supabase]);
 
+  // Mesajlar her değiştiğinde en alta kaydır
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   // Conversation oluştur
   const createConversation = async (userId: string) => {
@@ -476,6 +481,7 @@ export function ChatInterface({
             </div>
           )}
         </div>
+        <div ref={messagesEndRef} />
       </ScrollArea>
 
       {/* Input */}
