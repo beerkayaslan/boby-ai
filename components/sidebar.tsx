@@ -7,11 +7,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Users, Menu, X, Sparkles } from "lucide-react";
+import { Users, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CreateCharacterModal } from "./create-character-modal";
 import { UserProfile } from "./user-profile";
 import { createClient } from "@/lib/supabase/client";
+import Image from "next/image";
+import logo from "@/assets/boby_ai_logo.jpeg";
 
 interface Character {
   id: string;
@@ -64,7 +66,7 @@ export function Sidebar() {
         href="/dashboard"
         className="hidden md:flex p-4 items-center gap-2 border-b"
       >
-        <Sparkles className="h-6 w-6 text-primary" />
+        <Image src={logo} alt="Boby AI Logo" className="h-6 w-6" />
         <h1 className="text-xl font-bold">Boby AI</h1>
       </Link>
 
@@ -158,7 +160,7 @@ export function Sidebar() {
               )}
             </Button>
             <Link href="/dashboard" className="flex items-center gap-2">
-              <Sparkles className="h-6 w-6 text-primary" />
+              <Image src={logo} alt="Boby AI Logo" className="h-6 w-6" />
               <h1 className="text-xl font-bold">Boby AI</h1>
             </Link>
           </div>

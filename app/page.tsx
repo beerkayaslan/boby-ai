@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Sparkles, Users, Zap } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import Image from "next/image";
+import logo from "@/assets/boby_ai_logo.jpeg";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -20,7 +22,11 @@ export default async function Home() {
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
           <div className="w-full max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
             <div className="flex gap-2 items-center font-bold text-lg">
-              <Sparkles className="h-6 w-6 text-primary" />
+              <Image
+                src={logo}
+                alt="Boby AI Logo"
+                className="h-8 w-8 rounded-full"
+              />
               <Link href={"/"}>Boby AI</Link>
             </div>
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
