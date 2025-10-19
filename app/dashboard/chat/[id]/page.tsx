@@ -78,6 +78,7 @@ export default function ChatPage() {
           characterName={character.name}
           characterAvatar={character.avatar_url}
           characterGreeting={character.greeting}
+          characterDescription={character.description}
         />
       </div>
       <CharacterInfoSidebar

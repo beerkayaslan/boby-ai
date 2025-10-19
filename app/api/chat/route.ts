@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
 });
 
 export async function POST(req: Request) {
@@ -12,6 +12,8 @@ export async function POST(req: Request) {
       messages,
       model: "openai/gpt-oss-20b",
       stream: true,
+      temperature: 0.7,
+      max_tokens: 1024,
     });
 
     const encoder = new TextEncoder();

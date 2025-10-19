@@ -19,12 +19,14 @@ interface ChatInterfaceProps {
   characterName: string;
   characterAvatar: string;
   characterGreeting: string;
+  characterDescription?: string;
 }
 
 export function ChatInterface({
   characterName,
   characterAvatar,
   characterGreeting,
+  characterDescription = "",
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -58,18 +60,90 @@ export function ChatInterface({
     setInputValue("");
     setIsLoading(true);
 
-    // Simüle edilmiş AI yanıtı
-    // TODO: Gerçek AI API'si ile değiştirilecek
-    setTimeout(() => {
-      const aiMessage: Message = {
+    try {
+      // Karakter rolü için sistem mesajı oluştur
+      const systemMessage = {
+        role: "system",
+        content: `Sen ${characterName} adlı bir karaktersin. ${
+          characterDescription
+            ? `Karakterin açıklaması: "${characterDescription}". `
+            : ""
+        }Karakterin karşılama mesajı: "${characterGreeting}". Bu rolle uyumlu şekilde yanıt ver. Türkçe konuş ve karakterin kişiliğini yansıt.`,
+      };
+
+      // API'ye gönderilecek mesaj listesi
+      const apiMessages = [
+        systemMessage,
+        ...messages.map((msg) => ({
+          role: msg.role,
+          content: msg.content,
+        })),
+        {
+          role: "user",
+          content: userMessage.content,
+        },
+      ];
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: apiMessages,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("API isteği başarısız oldu");
+      }
+
+      // Streaming yanıtı işle
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let aiResponse = "";
+
+      // AI mesajını ekle (ilk olarak boş)
+      const aiMessageId = (Date.now() + 1).toString();
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: aiMessageId,
+          role: "assistant",
+          content: "",
+          timestamp: new Date(),
+        },
+      ]);
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          aiResponse += chunk;
+
+          // Mesajı güncelle
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId ? { ...msg, content: aiResponse } : msg
+            )
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Chat hatası:", error);
+      // Hata durumunda kullanıcıya bilgi ver
+      const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: `Bu ${characterName} karakterinden bir yanıt. Gerçek AI entegrasyonu eklendiğinde, bu mesaj yerini alacak.`,
+        content: "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
