@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { History, Info, X, Menu, MessageSquare } from "lucide-react";
+import { History, Info, X, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 
@@ -232,28 +232,28 @@ export function CharacterInfoSidebar({
 
   return (
     <>
-      {/* Mobile Menu Button */}
+      {/* Mobile Menu Button - Fixed in top right corner */}
       <Button
         variant="ghost"
         size="icon"
-        className="md:hidden fixed top-4 right-4 z-50"
+        className="md:hidden fixed top-[18px] right-4 z-50 bg-background/80 backdrop-blur-sm border shadow-sm"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? (
-          <X className="h-6 w-6" />
+          <X className="h-5 w-5" />
         ) : (
-          <Menu className="h-6 w-6" />
+          <Info className="h-5 w-5" />
         )}
       </Button>
 
       {/* Mobile Sidebar */}
       {isMobileOpen && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          className="md:hidden fixed inset-0 z-40 bg-black/50 pt-[73px]"
           onClick={() => setIsMobileOpen(false)}
         >
           <div
-            className="ml-auto w-80 h-full bg-background border-l"
+            className="ml-auto w-80 h-full bg-background border-l shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <SidebarContent />

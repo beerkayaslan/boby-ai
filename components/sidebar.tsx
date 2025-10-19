@@ -58,8 +58,11 @@ export function Sidebar() {
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full w-full">
-      {/* Logo */}
-      <Link href="/dashboard" className="p-4 flex items-center gap-2 border-b">
+      {/* Logo - Desktop Only */}
+      <Link
+        href="/dashboard"
+        className="hidden md:flex p-4 items-center gap-2 border-b"
+      >
         <Sparkles className="h-6 w-6 text-primary" />
         <h1 className="text-xl font-bold">Boby AI</h1>
       </Link>
@@ -138,28 +141,37 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="md:hidden fixed top-4 left-4 z-50"
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
-      >
-        {isMobileOpen ? (
-          <X className="h-6 w-6" />
-        ) : (
-          <Menu className="h-6 w-6" />
-        )}
-      </Button>
+      {/* Mobile Header with Menu Button */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b">
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+            >
+              {isMobileOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </Button>
+            <Link href="/dashboard" className="flex items-center gap-2">
+              <Sparkles className="h-6 w-6 text-primary" />
+              <h1 className="text-xl font-bold">Boby AI</h1>
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* Mobile Sidebar */}
       {isMobileOpen && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          className="md:hidden fixed inset-0 z-40 bg-black/50 pt-[73px]"
           onClick={() => setIsMobileOpen(false)}
         >
           <div
-            className="w-64 h-full bg-background border-r"
+            className="w-64 h-full bg-background border-r shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <SidebarContent />
