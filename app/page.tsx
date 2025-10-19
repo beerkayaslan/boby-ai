@@ -1,6 +1,7 @@
 import { EnvVarWarning } from "@/components/env-var-warning";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { LanguageSelector } from "@/components/language-selector";
 import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,10 @@ export default async function Home() {
               />
               <Link href={"/"}>{t("nav.title")}</Link>
             </div>
-            {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
+            <div className="flex items-center gap-2">
+              <LanguageSelector />
+              {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
+            </div>
           </div>
         </nav>
 

@@ -11,6 +11,7 @@ import { Users, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CreateCharacterModal } from "./create-character-modal";
 import { UserProfile } from "./user-profile";
+import { LanguageSelector } from "./language-selector";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import logo from "@/assets/boby_ai_logo.jpeg";
@@ -62,13 +63,13 @@ export function Sidebar() {
   const SidebarContent = () => (
     <div className="flex flex-col h-full w-full">
       {/* Logo - Desktop Only */}
-      <Link
-        href="/dashboard"
-        className="hidden md:flex p-4 items-center gap-2 border-b"
-      >
-        <Image src={logo} alt="Boby AI Logo" className="h-6 w-6" />
-        <h1 className="text-xl font-bold">Boby AI</h1>
-      </Link>
+      <div className="hidden md:flex p-4 items-center justify-between border-b">
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <Image src={logo} alt="Boby AI Logo" className="h-6 w-6" />
+          <h1 className="text-xl font-bold">Boby AI</h1>
+        </Link>
+        <LanguageSelector />
+      </div>
 
       {/* Characters Section */}
       <div className="px-4 py-3 border-b">
@@ -164,6 +165,7 @@ export function Sidebar() {
               <h1 className="text-xl font-bold">Boby AI</h1>
             </Link>
           </div>
+          <LanguageSelector />
         </div>
       </div>
 
