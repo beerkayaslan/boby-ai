@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
+import { NextIntlClientProvider } from "next-intl";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,7 +21,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -35,7 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>
