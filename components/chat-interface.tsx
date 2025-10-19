@@ -44,6 +44,7 @@ export function ChatInterface({
   );
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
 
   // Otomatik scroll fonksiyonu
@@ -116,6 +117,11 @@ export function ChatInterface({
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  // Sayfa yüklendiğinde input'a focus ver
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   // Conversation oluştur
   const createConversation = async (userId: string) => {
@@ -283,6 +289,10 @@ export function ChatInterface({
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      // Mesaj gönderimi tamamlandıktan sonra input'a focus ver
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -486,18 +496,20 @@ export function ChatInterface({
 
       {/* Input */}
       <div className="border-t p-4">
-        <div className="max-w-4xl mx-auto flex gap-2">
+        <div className="max-w-6xl mx-auto flex gap-2">
           <Input
+            ref={inputRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             placeholder="Mesajınızı yazın..."
             disabled={isLoading}
-            className="flex-1"
+            className="flex-1 h-12"
           />
           <Button
             onClick={handleSend}
             disabled={isLoading || !inputValue.trim()}
+            className="h-12 w-12"
           >
             <Send className="h-4 w-4" />
           </Button>
