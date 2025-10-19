@@ -22,7 +22,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold flex items-center gap-3">
           <Sparkles className="h-8 w-8 text-primary" />
-          Character AI&apos;a Hoş Geldiniz
+          Boby AI&apos;a Hoş Geldiniz
         </h1>
         <p className="text-muted-foreground">
           AI karakterlerle sohbet edin, yeni karakterler oluşturun ve harika

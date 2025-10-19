@@ -20,7 +20,7 @@ export default async function Home() {
           <div className="w-full max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
             <div className="flex gap-2 items-center font-bold text-lg">
               <Sparkles className="h-6 w-6 text-primary" />
-              <Link href={"/"}>Character AI</Link>
+              <Link href={"/"}>Boby AI</Link>
             </div>
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
           </div>
@@ -71,7 +71,7 @@ export default async function Home() {
         <section className="w-full max-w-7xl px-5 py-20 bg-muted/30 rounded-3xl my-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Neden Character AI?
+              Neden Boby AI?
             </h2>
             <p className="text-muted-foreground text-lg">
               En gelişmiş AI teknolojisi ile donatılmış özellikler
@@ -137,7 +137,7 @@ export default async function Home() {
         {/* Footer */}
         <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16 mt-20">
           <p className="text-muted-foreground">
-            © 2025 Character AI. Tüm hakları saklıdır.
+            © 2025 Boby AI. Tüm hakları saklıdır.
           </p>
           <ThemeSwitcher />
         </footer>

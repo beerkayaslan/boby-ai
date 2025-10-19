@@ -61,7 +61,7 @@ export function Sidebar() {
       {/* Logo */}
       <Link href="/dashboard" className="p-4 flex items-center gap-2 border-b">
         <Sparkles className="h-6 w-6 text-primary" />
-        <h1 className="text-xl font-bold">Character AI</h1>
+        <h1 className="text-xl font-bold">Boby AI</h1>
       </Link>
 
       {/* Characters Section */}

@@ -9,8 +9,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Character AI - Dashboard",
-  description: "Character AI Dashboard Uygulaması",
+  title: "Boby AI - Dashboard",
+  description: "Boby AI Dashboard Uygulaması",
 };
 
 const geistSans = Geist({
