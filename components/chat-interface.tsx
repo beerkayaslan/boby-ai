@@ -7,6 +7,10 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, User } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 
 interface Message {
   id: string;
@@ -300,7 +304,7 @@ export function ChatInterface({
 
       {/* Messages */}
       <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-        <div className="space-y-4 max-w-3xl mx-auto">
+        <div className="space-y-4 max-w-5xl mx-auto">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -328,15 +332,124 @@ export function ChatInterface({
                 }`}
               >
                 <div
-                  className={`rounded-lg px-4 py-2 max-w-xl ${
+                  className={`rounded-lg px-4 py-2 max-w-3xl ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">
-                    {message.content}
-                  </p>
+                  {message.role === "user" ? (
+                    <p className="text-sm whitespace-pre-wrap">
+                      {message.content}
+                    </p>
+                  ) : (
+                    <div className="text-sm prose prose-sm dark:prose-invert max-w-none">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeHighlight, rehypeRaw]}
+                        components={{
+                          code({ className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(
+                              className || ""
+                            );
+                            const isInline = !match;
+
+                            return isInline ? (
+                              <code
+                                className="bg-black/20 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono"
+                                {...props}
+                              >
+                                {children}
+                              </code>
+                            ) : (
+                              <code className={className} {...props}>
+                                {children}
+                              </code>
+                            );
+                          },
+                          pre({ children, ...props }) {
+                            return (
+                              <pre
+                                className="bg-black/90 dark:bg-black text-white p-4 rounded-lg overflow-x-auto my-2 border border-white/10"
+                                {...props}
+                              >
+                                {children}
+                              </pre>
+                            );
+                          },
+                          p({ children, ...props }) {
+                            return (
+                              <p className="mb-2 last:mb-0" {...props}>
+                                {children}
+                              </p>
+                            );
+                          },
+                          ul({ children, ...props }) {
+                            return (
+                              <ul
+                                className="list-disc list-inside mb-2"
+                                {...props}
+                              >
+                                {children}
+                              </ul>
+                            );
+                          },
+                          ol({ children, ...props }) {
+                            return (
+                              <ol
+                                className="list-decimal list-inside mb-2"
+                                {...props}
+                              >
+                                {children}
+                              </ol>
+                            );
+                          },
+                          blockquote({ children, ...props }) {
+                            return (
+                              <blockquote
+                                className="border-l-4 border-primary/50 pl-4 italic my-2"
+                                {...props}
+                              >
+                                {children}
+                              </blockquote>
+                            );
+                          },
+                          h1({ children, ...props }) {
+                            return (
+                              <h1
+                                className="text-xl font-bold mt-4 mb-2"
+                                {...props}
+                              >
+                                {children}
+                              </h1>
+                            );
+                          },
+                          h2({ children, ...props }) {
+                            return (
+                              <h2
+                                className="text-lg font-bold mt-3 mb-2"
+                                {...props}
+                              >
+                                {children}
+                              </h2>
+                            );
+                          },
+                          h3({ children, ...props }) {
+                            return (
+                              <h3
+                                className="text-base font-bold mt-2 mb-1"
+                                {...props}
+                              >
+                                {children}
+                              </h3>
+                            );
+                          },
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  )}
                 </div>
                 <span className="text-xs text-muted-foreground mt-1">
                   {message.timestamp.toLocaleTimeString([], {
@@ -367,7 +480,7 @@ export function ChatInterface({
 
       {/* Input */}
       <div className="border-t p-4">
-        <div className="max-w-3xl mx-auto flex gap-2">
+        <div className="max-w-4xl mx-auto flex gap-2">
           <Input
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
