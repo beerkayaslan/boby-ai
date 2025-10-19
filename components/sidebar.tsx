@@ -74,7 +74,9 @@ export function Sidebar() {
       <ScrollArea className="flex-1 px-2">
         <div className="space-y-1 pb-4 w-64">
           {isLoading ? (
-            <div className="space-y-2 p-3">
+            <div className="space-y-2 p-3  w-64">
+              <div className="h-12 bg-muted rounded-lg animate-pulse" />
+              <div className="h-12 bg-muted rounded-lg animate-pulse" />
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
