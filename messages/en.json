@@ -40,6 +40,66 @@
   "auth": {
     "greeting": "Hey",
     "signIn": "Sign in",
-    "signUp": "Sign up"
+    "signUpText": "Sign up",
+    "login": {
+      "title": "Login",
+      "description": "Enter your email below to login to your account",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "loginButton": "Login",
+      "loggingIn": "Logging in...",
+      "orContinueWith": "Or continue with",
+      "continueWithGoogle": "Continue with Google",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Sign up",
+      "description": "Create a new account",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "password": "Password",
+      "repeatPassword": "Repeat Password",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "signUpButton": "Sign up",
+      "creatingAccount": "Creating an account...",
+      "orContinueWith": "Or continue with",
+      "continueWithGoogle": "Continue with Google",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Login"
+    },
+    "forgotPassword": {
+      "title": "Reset Your Password",
+      "description": "Type in your email and we'll send you a link to reset your password",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "sendButton": "Send reset email",
+      "sending": "Sending...",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Login",
+      "successTitle": "Check Your Email",
+      "successDescription": "Password reset instructions sent",
+      "successMessage": "If you registered using your email and password, you will receive a password reset email."
+    },
+    "updatePassword": {
+      "title": "Reset Your Password",
+      "description": "Please enter your new password below.",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "New password",
+      "saveButton": "Save new password",
+      "saving": "Saving..."
+    },
+    "signUpSuccess": {
+      "title": "Thank you for signing up!",
+      "description": "Check your email to confirm",
+      "message": "You've successfully signed up. Please check your email to confirm your account before signing in."
+    },
+    "error": {
+      "title": "Sorry, something went wrong.",
+      "codeError": "Code error:",
+      "unspecifiedError": "An unspecified error occurred."
+    }
   }
 }

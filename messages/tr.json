@@ -40,6 +40,66 @@
   "auth": {
     "greeting": "Merhaba",
     "signIn": "Giriş Yap",
-    "signUp": "Kayıt Ol"
+    "signUpText": "Kayıt Ol",
+    "login": {
+      "title": "Giriş Yap",
+      "description": "Hesabınıza giriş yapmak için e-posta adresinizi girin",
+      "email": "E-posta",
+      "emailPlaceholder": "ornek@example.com",
+      "password": "Şifre",
+      "forgotPassword": "Şifrenizi mi unuttunuz?",
+      "loginButton": "Giriş Yap",
+      "loggingIn": "Giriş yapılıyor...",
+      "orContinueWith": "Veya şununla devam edin",
+      "continueWithGoogle": "Google ile devam et",
+      "noAccount": "Hesabınız yok mu?",
+      "signUpLink": "Kayıt Ol"
+    },
+    "signUp": {
+      "title": "Kayıt Ol",
+      "description": "Yeni bir hesap oluşturun",
+      "email": "E-posta",
+      "emailPlaceholder": "ornek@example.com",
+      "password": "Şifre",
+      "repeatPassword": "Şifre Tekrar",
+      "passwordsDoNotMatch": "Şifreler eşleşmiyor",
+      "signUpButton": "Kayıt Ol",
+      "creatingAccount": "Hesap oluşturuluyor...",
+      "orContinueWith": "Veya şununla devam edin",
+      "continueWithGoogle": "Google ile devam et",
+      "haveAccount": "Zaten hesabınız var mı?",
+      "loginLink": "Giriş Yap"
+    },
+    "forgotPassword": {
+      "title": "Şifrenizi Sıfırlayın",
+      "description": "E-posta adresinizi yazın ve size şifre sıfırlama bağlantısı gönderelim",
+      "email": "E-posta",
+      "emailPlaceholder": "ornek@example.com",
+      "sendButton": "Sıfırlama e-postası gönder",
+      "sending": "Gönderiliyor...",
+      "haveAccount": "Zaten hesabınız var mı?",
+      "loginLink": "Giriş Yap",
+      "successTitle": "E-postanızı Kontrol Edin",
+      "successDescription": "Şifre sıfırlama talimatları gönderildi",
+      "successMessage": "E-posta ve şifre kullanarak kayıt olduysanız, şifre sıfırlama e-postası alacaksınız."
+    },
+    "updatePassword": {
+      "title": "Şifrenizi Sıfırlayın",
+      "description": "Lütfen yeni şifrenizi aşağıya girin.",
+      "newPassword": "Yeni şifre",
+      "newPasswordPlaceholder": "Yeni şifre",
+      "saveButton": "Yeni şifreyi kaydet",
+      "saving": "Kaydediliyor..."
+    },
+    "signUpSuccess": {
+      "title": "Kayıt olduğunuz için teşekkürler!",
+      "description": "Onaylamak için e-postanızı kontrol edin",
+      "message": "Başarıyla kayıt oldunuz. Giriş yapmadan önce hesabınızı onaylamak için lütfen e-postanızı kontrol edin."
+    },
+    "error": {
+      "title": "Üzgünüz, bir şeyler yanlış gitti.",
+      "codeError": "Kod hatası:",
+      "unspecifiedError": "Belirtilmeyen bir hata oluştu."
+    }
   }
 }

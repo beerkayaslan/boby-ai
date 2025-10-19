@@ -24,7 +24,7 @@ export async function AuthButton() {
         <Link href="/auth/login">{t("signIn")}</Link>
       </Button>
       <Button asChild size="sm" variant={"default"}>
-        <Link href="/auth/sign-up">{t("signUp")}</Link>
+        <Link href="/auth/sign-up">{t("signUp.title")}</Link>
       </Button>
     </div>
   );
