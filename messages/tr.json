@@ -101,5 +101,49 @@
       "codeError": "Kod hatası:",
       "unspecifiedError": "Belirtilmeyen bir hata oluştu."
     }
+  },
+  "dashboard": {
+    "welcome": "Boby AI'a Hoş Geldiniz",
+    "description": "AI karakterlerle sohbet edin, yeni karakterler oluşturun ve harika konuşmalar yapın.",
+    "redirecting": "Yönlendiriliyor...",
+    "defaultGreeting": "Merhaba! Size nasıl yardımcı olabilirim?",
+    "characterNotFound": {
+      "title": "Karakter bulunamadı",
+      "description": "Bu karakter mevcut değil veya silinmiş olabilir."
+    },
+    "conversationNotFound": {
+      "title": "Konuşma bulunamadı",
+      "description": "Bu konuşma mevcut değil veya silinmiş olabilir."
+    },
+    "chats": {
+      "title": "Sohbetler",
+      "description": "AI karakterlerle sınırsız sohbet edin",
+      "content": "Sol menüden bir karakter seçin veya yeni bir sohbet başlatın."
+    },
+    "characters": {
+      "title": "Karakterler",
+      "description": "Kendi AI karakterlerinizi oluşturun",
+      "content": "Karakter Oluştur butonuna tıklayarak özel karakterler yaratın."
+    },
+    "quickStart": {
+      "title": "Hızlı Başlangıç",
+      "description": "Hemen başlamaya hazır mısınız?",
+      "content": "Önceden hazırlanmış karakterlerle hemen sohbete başlayın."
+    },
+    "howToUse": {
+      "title": "Nasıl Kullanılır?",
+      "step1": {
+        "title": "Karakter Seçin",
+        "description": "Sol menüden bir karakter seçin. Karaktere tıkladığınızda sohbet ekranı açılır."
+      },
+      "step2": {
+        "title": "Sohbet Edin",
+        "description": "Mesajınızı yazın ve AI karakterle konuşmaya başlayın. Sağ tarafta karakterin bilgilerini görebilirsiniz."
+      },
+      "step3": {
+        "title": "Geçmişi Görüntüleyin",
+        "description": "Sağ sidebar'da \"Geçmiş\" sekmesine tıklayarak önceki sohbetlerinizi görüntüleyin."
+      }
+    }
   }
 }

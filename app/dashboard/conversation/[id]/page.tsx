@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChatInterface } from "@/components/chat-interface";
 import { CharacterInfoSidebar } from "@/components/character-info-sidebar";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface Character {
   id: string;
@@ -26,6 +27,7 @@ export default function ConversationPage() {
   const [character, setCharacter] = useState<Character | null>(null);
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations("dashboard");
 
   useEffect(() => {
     const fetchConversationAndCharacter = async () => {
@@ -65,9 +67,11 @@ export default function ConversationPage() {
           // Bu durumda conversation'dan title'ı kullanabiliriz
           setCharacter({
             id: "temp",
-            name: convData.title.replace(" ile sohbet", ""),
+            name: convData.title
+              .replace(" ile sohbet", "")
+              .replace(" chat", ""),
             avatar_url: "",
-            greeting: "Merhaba! Size nasıl yardımcı olabilirim?",
+            greeting: t("defaultGreeting"),
             description: "",
           });
         }
@@ -79,7 +83,7 @@ export default function ConversationPage() {
     };
 
     fetchConversationAndCharacter();
-  }, [conversationId]);
+  }, [conversationId, t]);
 
   if (isLoading) {
     return (
@@ -96,9 +100,11 @@ export default function ConversationPage() {
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold">Konuşma bulunamadı</h2>
+          <h2 className="text-2xl font-bold">
+            {t("conversationNotFound.title")}
+          </h2>
           <p className="text-muted-foreground">
-            Bu konuşma mevcut değil veya silinmiş olabilir.
+            {t("conversationNotFound.description")}
           </p>
         </div>
       </div>

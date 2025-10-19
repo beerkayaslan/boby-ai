@@ -101,5 +101,49 @@
       "codeError": "Code error:",
       "unspecifiedError": "An unspecified error occurred."
     }
+  },
+  "dashboard": {
+    "welcome": "Welcome to Boby AI",
+    "description": "Chat with AI characters, create new characters, and have amazing conversations.",
+    "redirecting": "Redirecting...",
+    "defaultGreeting": "Hello! How can I help you?",
+    "characterNotFound": {
+      "title": "Character not found",
+      "description": "This character does not exist or may have been deleted."
+    },
+    "conversationNotFound": {
+      "title": "Conversation not found",
+      "description": "This conversation does not exist or may have been deleted."
+    },
+    "chats": {
+      "title": "Chats",
+      "description": "Unlimited chats with AI characters",
+      "content": "Select a character from the left menu or start a new chat."
+    },
+    "characters": {
+      "title": "Characters",
+      "description": "Create your own AI characters",
+      "content": "Click the Create Character button to create custom characters."
+    },
+    "quickStart": {
+      "title": "Quick Start",
+      "description": "Ready to get started?",
+      "content": "Start chatting immediately with pre-made characters."
+    },
+    "howToUse": {
+      "title": "How to Use?",
+      "step1": {
+        "title": "Select a Character",
+        "description": "Select a character from the left menu. The chat screen opens when you click on the character."
+      },
+      "step2": {
+        "title": "Start Chatting",
+        "description": "Type your message and start talking with the AI character. You can see the character's information on the right side."
+      },
+      "step3": {
+        "title": "View History",
+        "description": "Click on the \"History\" tab in the right sidebar to view your previous conversations."
+      }
+    }
   }
 }

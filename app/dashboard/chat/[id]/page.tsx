@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChatInterface } from "@/components/chat-interface";
 import { CharacterInfoSidebar } from "@/components/character-info-sidebar";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface Character {
   id: string;
@@ -19,6 +20,7 @@ export default function ChatPage() {
   const chatId = params.id as string;
   const [character, setCharacter] = useState<Character | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations("dashboard");
 
   useEffect(() => {
     const fetchCharacter = async () => {
@@ -62,9 +64,9 @@ export default function ChatPage() {
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold">Karakter bulunamadı</h2>
+          <h2 className="text-2xl font-bold">{t("characterNotFound.title")}</h2>
           <p className="text-muted-foreground">
-            Bu karakter mevcut değil veya silinmiş olabilir.
+            {t("characterNotFound.description")}
           </p>
         </div>
       </div>
