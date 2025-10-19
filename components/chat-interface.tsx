@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, User } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 interface Message {
   id: string;
@@ -20,25 +21,86 @@ interface ChatInterfaceProps {
   characterAvatar: string;
   characterGreeting: string;
   characterDescription?: string;
+  existingConversationId?: string | null;
 }
 
 export function ChatInterface({
+  characterId,
   characterName,
   characterAvatar,
   characterGreeting,
   characterDescription = "",
+  existingConversationId = null,
 }: ChatInterfaceProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: characterGreeting,
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(
+    existingConversationId
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
+  const supabase = createClient();
+
+  // Geçmiş mesajları yükle
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (existingConversationId) {
+        setConversationId(existingConversationId);
+        try {
+          const { data, error } = await supabase
+            .from("messages")
+            .select("*")
+            .eq("conversation_id", existingConversationId)
+            .order("created_at", { ascending: true });
+
+          if (error) throw error;
+
+          if (data && data.length > 0) {
+            const loadedMessages: Message[] = data.map((msg) => ({
+              id: msg.id,
+              role: msg.sender_type === "ai" ? "assistant" : "user",
+              content: msg.content,
+              timestamp: new Date(msg.created_at),
+            }));
+            setMessages(loadedMessages);
+          } else {
+            // Eğer mesaj yoksa karşılama mesajını göster
+            setMessages([
+              {
+                id: "1",
+                role: "assistant",
+                content: characterGreeting,
+                timestamp: new Date(),
+              },
+            ]);
+          }
+        } catch (error) {
+          console.error("Mesajlar yüklenirken hata:", error);
+          // Hata durumunda karşılama mesajını göster
+          setMessages([
+            {
+              id: "1",
+              role: "assistant",
+              content: characterGreeting,
+              timestamp: new Date(),
+            },
+          ]);
+        }
+      } else {
+        // Yeni konuşma - karşılama mesajını göster
+        setMessages([
+          {
+            id: "1",
+            role: "assistant",
+            content: characterGreeting,
+            timestamp: new Date(),
+          },
+        ]);
+      }
+    };
+
+    loadMessages();
+  }, [existingConversationId, characterGreeting, supabase]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -46,8 +108,68 @@ export function ChatInterface({
     }
   }, [messages]);
 
+  // Conversation oluştur
+  const createConversation = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("conversations")
+        .insert({
+          user_id: userId,
+          title: `${characterName} ile sohbet`,
+          character_id: characterId,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data.id;
+    } catch (error) {
+      console.error("Conversation oluşturma hatası:", error);
+      return null;
+    }
+  };
+
+  // Mesaj kaydet
+  const saveMessage = async (
+    convId: string,
+    userId: string,
+    content: string,
+    senderType: "user" | "ai"
+  ) => {
+    try {
+      await supabase.from("messages").insert({
+        conversation_id: convId,
+        user_id: userId,
+        sender_type: senderType,
+        content: content,
+      });
+    } catch (error) {
+      console.error("Mesaj kaydetme hatası:", error);
+    }
+  };
+
   const handleSend = async () => {
     if (!inputValue.trim() || isLoading) return;
+
+    // Kullanıcıyı al
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      console.error("Kullanıcı bulunamadı");
+      return;
+    }
+
+    // İlk mesajsa conversation oluştur
+    let currentConversationId = conversationId;
+    if (!currentConversationId) {
+      currentConversationId = await createConversation(user.id);
+      if (!currentConversationId) {
+        console.error("Conversation oluşturulamadı");
+        return;
+      }
+      setConversationId(currentConversationId);
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -57,6 +179,10 @@ export function ChatInterface({
     };
 
     setMessages((prev) => [...prev, userMessage]);
+
+    // Kullanıcı mesajını kaydet
+    await saveMessage(currentConversationId, user.id, inputValue, "user");
+
     setInputValue("");
     setIsLoading(true);
 
@@ -130,6 +256,11 @@ export function ChatInterface({
             )
           );
         }
+      }
+
+      // AI yanıtını kaydet
+      if (aiResponse && currentConversationId) {
+        await saveMessage(currentConversationId, user.id, aiResponse, "ai");
       }
     } catch (error) {
       console.error("Chat hatası:", error);

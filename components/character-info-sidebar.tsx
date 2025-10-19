@@ -1,18 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { History, Info, X, Menu } from "lucide-react";
+import { History, Info, X, Menu, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
-interface ChatHistory {
+interface Conversation {
   id: string;
-  date: string;
-  message_count: number;
-  last_message: string;
+  title: string;
+  created_at: string;
+  message_count?: number;
 }
 
 interface CharacterInfoSidebarProps {
@@ -24,6 +26,7 @@ interface CharacterInfoSidebarProps {
 }
 
 export function CharacterInfoSidebar({
+  characterId,
   characterName,
   characterAvatar,
   characterDescription,
@@ -31,28 +34,65 @@ export function CharacterInfoSidebar({
 }: CharacterInfoSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "history">("info");
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClient();
 
-  // Örnek chat geçmişi
-  const [chatHistory] = useState<ChatHistory[]>([
-    {
-      id: "1",
-      date: "18 Ekim 2025",
-      message_count: 24,
-      last_message: "Görelilik teorisi hakkında harika bir sohbet oldu!",
-    },
-    {
-      id: "2",
-      date: "17 Ekim 2025",
-      message_count: 15,
-      last_message: "Kuantum fiziği üzerine tartıştık.",
-    },
-    {
-      id: "3",
-      date: "15 Ekim 2025",
-      message_count: 8,
-      last_message: "E=mc² formülünü detaylıca açıkladı.",
-    },
-  ]);
+  // Character'a ait conversation'ları yükle
+  useEffect(() => {
+    const fetchConversations = async () => {
+      setIsLoading(true);
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from("conversations")
+          .select("*")
+          .eq("character_id", characterId)
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.error("Conversations yüklenirken hata:", error);
+          return;
+        }
+
+        setConversations(data || []);
+      } catch (error) {
+        console.error("Beklenmeyen hata:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (activeTab === "history") {
+      fetchConversations();
+    }
+
+    // Realtime subscription
+    const channel = supabase
+      .channel(`character_${characterId}_conversations`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "conversations",
+          filter: `character_id=eq.${characterId}`,
+        },
+        () => {
+          fetchConversations();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [characterId, activeTab, supabase]);
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full w-full">
@@ -127,16 +167,7 @@ export function CharacterInfoSidebar({
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Toplam Sohbet:</span>
-                  <span className="font-medium">{chatHistory.length}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Toplam Mesaj:</span>
-                  <span className="font-medium">
-                    {chatHistory.reduce(
-                      (sum, chat) => sum + chat.message_count,
-                      0
-                    )}
-                  </span>
+                  <span className="font-medium">{conversations.length}</span>
                 </div>
               </div>
             </div>
@@ -144,25 +175,42 @@ export function CharacterInfoSidebar({
         ) : (
           <div className="p-4 space-y-3">
             <h3 className="text-sm font-semibold mb-3">Geçmiş Sohbetler</h3>
-            {chatHistory.length > 0 ? (
+            {isLoading ? (
               <div className="space-y-2">
-                {chatHistory.map((chat) => (
-                  <div
-                    key={chat.id}
-                    className="border rounded-lg p-3 hover:bg-accent transition-colors cursor-pointer"
+                <div className="h-20 bg-muted rounded-lg animate-pulse" />
+                <div className="h-20 bg-muted rounded-lg animate-pulse" />
+                <div className="h-20 bg-muted rounded-lg animate-pulse" />
+              </div>
+            ) : conversations.length > 0 ? (
+              <div className="space-y-2">
+                {conversations.map((conversation) => (
+                  <Link
+                    key={conversation.id}
+                    href={`/dashboard/conversation/${conversation.id}`}
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <span className="text-xs font-medium text-primary">
-                        {chat.date}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {chat.message_count} mesaj
-                      </span>
+                    <div className="border rounded-lg p-3 hover:bg-accent transition-colors cursor-pointer">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4 text-primary" />
+                          <span className="text-sm font-medium">
+                            {conversation.title}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(conversation.created_at).toLocaleDateString(
+                          "tr-TR",
+                          {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {chat.last_message}
-                    </p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
@@ -170,6 +218,9 @@ export function CharacterInfoSidebar({
                 <History className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
                 <p className="text-sm text-muted-foreground">
                   Henüz geçmiş sohbet yok
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  İlk mesajı göndererek sohbete başlayın
                 </p>
               </div>
             )}

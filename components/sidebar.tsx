@@ -65,16 +65,18 @@ export function Sidebar() {
       </Link>
 
       {/* Characters Section */}
-      <div className="px-4 py-3">
+      <div className="px-4 py-3 border-b">
         <h2 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
           <Users className="h-4 w-4" />
           Karakterler
         </h2>
       </div>
+
+      {/* Content */}
       <ScrollArea className="flex-1 px-2">
         <div className="space-y-1 pb-4 w-64">
           {isLoading ? (
-            <div className="space-y-2 p-3  w-64">
+            <div className="space-y-2 p-3 w-64">
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
