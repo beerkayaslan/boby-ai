@@ -38,7 +38,6 @@ export function CharacterInfoSidebar({
   const [isLoading, setIsLoading] = useState(false);
   const supabase = createClient();
 
-  // Character'a ait conversation'ları yükle
   useEffect(() => {
     const fetchConversations = async () => {
       setIsLoading(true);
@@ -72,7 +71,6 @@ export function CharacterInfoSidebar({
       fetchConversations();
     }
 
-    // Realtime subscription
     const channel = supabase
       .channel(`character_${characterId}_conversations`)
       .on(

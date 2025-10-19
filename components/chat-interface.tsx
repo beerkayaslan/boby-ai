@@ -47,12 +47,10 @@ export function ChatInterface({
   const inputRef = useRef<HTMLInputElement>(null);
   const supabase = createClient();
 
-  // Otomatik scroll fonksiyonu
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Geçmiş mesajları yükle
   useEffect(() => {
     const loadMessages = async () => {
       if (existingConversationId) {
@@ -76,7 +74,6 @@ export function ChatInterface({
             }));
             setMessages(loadedMessages);
           } else {
-            // Eğer mesaj yoksa karşılama mesajını göster
             setMessages([
               {
                 id: "1",
@@ -88,7 +85,6 @@ export function ChatInterface({
           }
         } catch (error) {
           console.error("Mesajlar yüklenirken hata:", error);
-          // Hata durumunda karşılama mesajını göster
           setMessages([
             {
               id: "1",
@@ -99,7 +95,6 @@ export function ChatInterface({
           ]);
         }
       } else {
-        // Yeni konuşma - karşılama mesajını göster
         setMessages([
           {
             id: "1",
@@ -114,17 +109,14 @@ export function ChatInterface({
     loadMessages();
   }, [existingConversationId, characterGreeting, supabase]);
 
-  // Mesajlar her değiştiğinde en alta kaydır
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // Sayfa yüklendiğinde input'a focus ver
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  // Conversation oluştur
   const createConversation = async (userId: string) => {
     try {
       const { data, error } = await supabase
@@ -145,7 +137,6 @@ export function ChatInterface({
     }
   };
 
-  // Mesaj kaydet
   const saveMessage = async (
     convId: string,
     userId: string,
@@ -167,7 +158,6 @@ export function ChatInterface({
   const handleSend = async () => {
     if (!inputValue.trim() || isLoading) return;
 
-    // Kullanıcıyı al
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -176,7 +166,6 @@ export function ChatInterface({
       return;
     }
 
-    // İlk mesajsa conversation oluştur
     let currentConversationId = conversationId;
     if (!currentConversationId) {
       currentConversationId = await createConversation(user.id);
@@ -196,14 +185,12 @@ export function ChatInterface({
 
     setMessages((prev) => [...prev, userMessage]);
 
-    // Kullanıcı mesajını kaydet
     await saveMessage(currentConversationId, user.id, inputValue, "user");
 
     setInputValue("");
     setIsLoading(true);
 
     try {
-      // Karakter rolü için sistem mesajı oluştur
       const systemMessage = {
         role: "system",
         content: `Sen ${characterName} adlı bir karaktersin. ${
@@ -213,7 +200,6 @@ export function ChatInterface({
         }Karakterin karşılama mesajı: "${characterGreeting}". Bu rolle uyumlu şekilde yanıt ver. Türkçe konuş ve karakterin kişiliğini yansıt.`,
       };
 
-      // API'ye gönderilecek mesaj listesi
       const apiMessages = [
         systemMessage,
         ...messages.map((msg) => ({
@@ -240,12 +226,10 @@ export function ChatInterface({
         throw new Error("API isteği başarısız oldu");
       }
 
-      // Streaming yanıtı işle
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       let aiResponse = "";
 
-      // AI mesajını ekle (ilk olarak boş)
       const aiMessageId = (Date.now() + 1).toString();
       setMessages((prev) => [
         ...prev,
@@ -265,7 +249,6 @@ export function ChatInterface({
           const chunk = decoder.decode(value);
           aiResponse += chunk;
 
-          // Mesajı güncelle
           setMessages((prev) =>
             prev.map((msg) =>
               msg.id === aiMessageId ? { ...msg, content: aiResponse } : msg
@@ -274,13 +257,11 @@ export function ChatInterface({
         }
       }
 
-      // AI yanıtını kaydet
       if (aiResponse && currentConversationId) {
         await saveMessage(currentConversationId, user.id, aiResponse, "ai");
       }
     } catch (error) {
       console.error("Chat hatası:", error);
-      // Hata durumunda kullanıcıya bilgi ver
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
@@ -290,7 +271,6 @@ export function ChatInterface({
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-      // Mesaj gönderimi tamamlandıktan sonra input'a focus ver
       setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
@@ -306,7 +286,6 @@ export function ChatInterface({
 
   return (
     <div className="flex flex-col h-full w-full">
-      {/* Header */}
       <div className="border-b p-4 flex items-center gap-3">
         <Avatar className="h-10 w-10">
           <AvatarImage src={characterAvatar} />
@@ -318,7 +297,6 @@ export function ChatInterface({
         </div>
       </div>
 
-      {/* Messages */}
       <ScrollArea className="flex-1 p-4" ref={scrollRef}>
         <div className="space-y-4 max-w-5xl mx-auto">
           {messages.map((message) => (
@@ -495,7 +473,6 @@ export function ChatInterface({
         <div ref={messagesEndRef} />
       </ScrollArea>
 
-      {/* Input */}
       <div className="border-t p-4">
         <div className="max-w-6xl mx-auto flex gap-2">
           <Input
