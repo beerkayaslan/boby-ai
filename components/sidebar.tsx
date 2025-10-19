@@ -36,6 +36,7 @@ export function Sidebar() {
       const { data, error } = await supabase
         .from("characters")
         .select("*")
+        .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
         .order("created_at", { ascending: false });
 
       if (error) {

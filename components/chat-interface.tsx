@@ -61,6 +61,7 @@ export function ChatInterface({
           const { data, error } = await supabase
             .from("messages")
             .select("*")
+            .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
             .eq("conversation_id", existingConversationId)
             .order("created_at", { ascending: true });
 

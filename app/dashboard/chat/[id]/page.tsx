@@ -27,6 +27,7 @@ export default function ChatPage() {
         const { data, error } = await supabase
           .from("characters")
           .select("*")
+          .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
           .eq("id", chatId)
           .single();
 

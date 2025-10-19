@@ -36,6 +36,7 @@ export default function ConversationPage() {
         const { data: convData, error: convError } = await supabase
           .from("conversations")
           .select("*")
+          .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
           .eq("id", conversationId)
           .single();
 
@@ -52,6 +53,7 @@ export default function ConversationPage() {
           const { data: charData, error: charError } = await supabase
             .from("characters")
             .select("*")
+            .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
             .eq("id", convData.character_id)
             .single();
 
