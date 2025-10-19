@@ -321,23 +321,23 @@ export function ChatInterface({
                 )}
               </Avatar>
               <div
-                className={`flex flex-col ${
+                className={`flex flex-col min-w-0 flex-1 ${
                   message.role === "user" ? "items-end" : ""
                 }`}
               >
                 <div
-                  className={`rounded-lg px-4 py-2 max-w-3xl ${
+                  className={`rounded-lg px-4 py-2 max-w-full md:max-w-3xl break-words overflow-hidden ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted"
                   }`}
                 >
                   {message.role === "user" ? (
-                    <p className="text-sm whitespace-pre-wrap">
+                    <p className="text-sm whitespace-pre-wrap break-words">
                       {message.content}
                     </p>
                   ) : (
-                    <div className="text-sm prose prose-sm dark:prose-invert max-w-none">
+                    <div className="text-sm prose prose-sm dark:prose-invert max-w-none [&>*]:break-words">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeHighlight, rehypeRaw]}
@@ -350,13 +350,16 @@ export function ChatInterface({
 
                             return isInline ? (
                               <code
-                                className="bg-black/20 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono"
+                                className="bg-black/20 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono break-words"
                                 {...props}
                               >
                                 {children}
                               </code>
                             ) : (
-                              <code className={className} {...props}>
+                              <code
+                                className={`${className} break-words`}
+                                {...props}
+                              >
                                 {children}
                               </code>
                             );
@@ -364,7 +367,12 @@ export function ChatInterface({
                           pre({ children, ...props }) {
                             return (
                               <pre
-                                className="bg-black/90 dark:bg-black text-white p-4 rounded-lg overflow-x-auto my-2 border border-white/10"
+                                className="bg-black/90 dark:bg-black text-white p-4 rounded-lg overflow-x-auto my-2 border border-white/10 max-w-full"
+                                style={{
+                                  wordBreak: "normal",
+                                  overflowWrap: "normal",
+                                  whiteSpace: "pre",
+                                }}
                                 {...props}
                               >
                                 {children}
@@ -373,7 +381,10 @@ export function ChatInterface({
                           },
                           p({ children, ...props }) {
                             return (
-                              <p className="mb-2 last:mb-0" {...props}>
+                              <p
+                                className="mb-2 last:mb-0 break-words"
+                                {...props}
+                              >
                                 {children}
                               </p>
                             );
@@ -381,7 +392,7 @@ export function ChatInterface({
                           ul({ children, ...props }) {
                             return (
                               <ul
-                                className="list-disc list-inside mb-2"
+                                className="list-disc list-inside mb-2 break-words"
                                 {...props}
                               >
                                 {children}
@@ -391,7 +402,7 @@ export function ChatInterface({
                           ol({ children, ...props }) {
                             return (
                               <ol
-                                className="list-decimal list-inside mb-2"
+                                className="list-decimal list-inside mb-2 break-words"
                                 {...props}
                               >
                                 {children}
@@ -401,7 +412,7 @@ export function ChatInterface({
                           blockquote({ children, ...props }) {
                             return (
                               <blockquote
-                                className="border-l-4 border-primary/50 pl-4 italic my-2"
+                                className="border-l-4 border-primary/50 pl-4 italic my-2 break-words overflow-hidden"
                                 {...props}
                               >
                                 {children}
@@ -411,7 +422,7 @@ export function ChatInterface({
                           h1({ children, ...props }) {
                             return (
                               <h1
-                                className="text-xl font-bold mt-4 mb-2"
+                                className="text-xl font-bold mt-4 mb-2 break-words"
                                 {...props}
                               >
                                 {children}
@@ -421,7 +432,7 @@ export function ChatInterface({
                           h2({ children, ...props }) {
                             return (
                               <h2
-                                className="text-lg font-bold mt-3 mb-2"
+                                className="text-lg font-bold mt-3 mb-2 break-words"
                                 {...props}
                               >
                                 {children}
@@ -431,7 +442,7 @@ export function ChatInterface({
                           h3({ children, ...props }) {
                             return (
                               <h3
-                                className="text-base font-bold mt-2 mb-1"
+                                className="text-base font-bold mt-2 mb-1 break-words"
                                 {...props}
                               >
                                 {children}
@@ -456,7 +467,7 @@ export function ChatInterface({
           ))}
           {isLoading && (
             <div className="flex gap-3">
-              <Avatar className="h-8 w-8">
+              <Avatar className="h-8 w-8 shrink-0">
                 <AvatarImage src={characterAvatar} />
                 <AvatarFallback>{characterName[0]}</AvatarFallback>
               </Avatar>
