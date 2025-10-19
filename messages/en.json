@@ -36,5 +36,10 @@
     "footer": {
       "copyright": "© 2025 Boby AI. All rights reserved."
     }
+  },
+  "auth": {
+    "greeting": "Hey",
+    "signIn": "Sign in",
+    "signUp": "Sign up"
   }
 }

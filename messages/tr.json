@@ -36,5 +36,10 @@
     "footer": {
       "copyright": "© 2025 Boby AI. Tüm hakları saklıdır."
     }
+  },
+  "auth": {
+    "greeting": "Merhaba",
+    "signIn": "Giriş Yap",
+    "signUp": "Kayıt Ol"
   }
 }
