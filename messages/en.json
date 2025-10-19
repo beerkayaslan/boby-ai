@@ -1,3 +1,40 @@
 {
-  
+  "home": {
+    "nav": {
+      "title": "Boby AI"
+    },
+    "hero": {
+      "badge": "AI-Powered Character Chats",
+      "title": "Chat with Your",
+      "titleHighlight": " Dream Characters",
+      "description": "Experience real-time conversations with AI-powered characters. Create your own characters or discover thousands of ready-made ones.",
+      "startButton": "Get Started",
+      "loginButton": "Log In",
+      "dashboardButton": "Go to Dashboard"
+    },
+    "features": {
+      "title": "Why Boby AI?",
+      "subtitle": "Features powered by the most advanced AI technology",
+      "naturalChats": {
+        "title": "Natural Conversations",
+        "description": "Build realistic and fluent dialogues with advanced AI models"
+      },
+      "createCharacter": {
+        "title": "Create Your Own Character",
+        "description": "Design the character you want and customize their personality"
+      },
+      "library": {
+        "title": "Extensive Character Library",
+        "description": "Meet and chat with thousands of different characters"
+      }
+    },
+    "cta": {
+      "title": "Start Your Adventure Today",
+      "description": "Create a free account and enjoy chatting with AI-powered characters",
+      "button": "Sign Up for Free"
+    },
+    "footer": {
+      "copyright": "© 2025 Boby AI. All rights reserved."
+    }
+  }
 }

@@ -1,3 +1,40 @@
 {
-    
+  "home": {
+    "nav": {
+      "title": "Boby AI"
+    },
+    "hero": {
+      "badge": "AI Destekli Karakter Sohbetleri",
+      "title": "Hayal Ettiğiniz Karakterlerle",
+      "titleHighlight": " Sohbet Edin",
+      "description": "Yapay zeka ile güçlendirilmiş karakterlerle gerçek zamanlı sohbet deneyimi yaşayın. Kendi karakterlerinizi oluşturun veya binlerce hazır karakteri keşfedin.",
+      "startButton": "Hemen Başla",
+      "loginButton": "Giriş Yap",
+      "dashboardButton": "Dashboard'a Git"
+    },
+    "features": {
+      "title": "Neden Boby AI?",
+      "subtitle": "En gelişmiş AI teknolojisi ile donatılmış özellikler",
+      "naturalChats": {
+        "title": "Doğal Sohbetler",
+        "description": "Gelişmiş AI modelleri ile gerçekçi ve akıcı diyaloglar kurun"
+      },
+      "createCharacter": {
+        "title": "Kendi Karakterinizi Oluşturun",
+        "description": "İstediğiniz karakteri tasarlayın ve kişiliğini özelleştirin"
+      },
+      "library": {
+        "title": "Geniş Karakter Kütüphanesi",
+        "description": "Binlerce farklı karakterle tanışın ve sohbet edin"
+      }
+    },
+    "cta": {
+      "title": "Maceranız Bugün Başlasın",
+      "description": "Ücretsiz hesap oluşturun ve yapay zeka destekli karakterlerle sohbet etmenin keyfini çıkarın",
+      "button": "Ücretsiz Kayıt Ol"
+    },
+    "footer": {
+      "copyright": "© 2025 Boby AI. Tüm hakları saklıdır."
+    }
+  }
 }
