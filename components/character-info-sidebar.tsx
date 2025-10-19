@@ -162,7 +162,7 @@ export function CharacterInfoSidebar({
             <Separator />
 
             {/* Stats */}
-            <div>
+            {/* <div>
               <h3 className="text-sm font-semibold mb-3">İstatistikler</h3>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
@@ -170,7 +170,7 @@ export function CharacterInfoSidebar({
                   <span className="font-medium">{conversations.length}</span>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="p-4 space-y-3">
