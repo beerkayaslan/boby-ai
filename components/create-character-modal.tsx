@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Character {
@@ -41,10 +41,7 @@ export function CreateCharacterModal({
   const [uploadError, setUploadError] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const processFile = (file: File) => {
     if (!file.type.startsWith("image/")) {
       setUploadError("Lütfen bir resim dosyası seçin");
       return;
@@ -63,6 +60,26 @@ export function CreateCharacterModal({
       setAvatarPreview(reader.result as string);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    processFile(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    processFile(file);
   };
 
   const handleRemoveAvatar = () => {
@@ -185,38 +202,73 @@ export function CreateCharacterModal({
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="avatar">Avatar</Label>
-              <div className="flex gap-2">
-                <Input
+
+              {/* Avatar Upload Area */}
+              <div
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                className="relative border-2 border-dashed rounded-lg p-6 transition-colors hover:border-primary/50"
+              >
+                <input
                   ref={fileInputRef}
                   id="avatar"
                   type="file"
                   accept="image/*"
                   onChange={handleFileSelect}
-                  className="cursor-pointer"
+                  className="hidden"
                 />
-                {avatarFile && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={handleRemoveAvatar}
+
+                {avatarPreview ? (
+                  <div className="flex flex-col items-center gap-4">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={avatarPreview}
+                      alt="Avatar preview"
+                      className="w-32 h-32 rounded-full object-cover border-4 border-background shadow-lg"
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        Değiştir
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={handleRemoveAvatar}
+                      >
+                        <X className="h-4 w-4 mr-1" />
+                        Kaldır
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex flex-col items-center gap-2 cursor-pointer"
                   >
-                    <X className="h-4 w-4" />
-                  </Button>
+                    <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center">
+                      <Upload className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-medium">Avatar yükle</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Tıkla veya sürükle-bırak
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        PNG, JPG (max. 2MB)
+                      </p>
+                    </div>
+                  </div>
                 )}
               </div>
+
               {uploadError && (
                 <p className="text-sm text-red-500">{uploadError}</p>
-              )}
-              {avatarPreview && (
-                <div className="flex justify-center mt-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={avatarPreview}
-                    alt="Avatar preview"
-                    className="w-20 h-20 rounded-full object-cover"
-                  />
-                </div>
               )}
             </div>
             <div className="grid gap-2">
