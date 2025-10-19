@@ -144,6 +144,23 @@
         "title": "View History",
         "description": "Click on the \"History\" tab in the right sidebar to view your previous conversations."
       }
+    },
+    "sidebar": {
+      "characters": "Characters",
+      "noCharacters": "No characters yet",
+      "noCharactersDescription": "Click the button below to create your first character"
+    },
+    "characterInfo": {
+      "tabs": {
+        "info": "Info",
+        "history": "History"
+      },
+      "aiCharacter": "AI Character",
+      "description": "Description",
+      "firstMessage": "First Message",
+      "conversationHistory": "Conversation History",
+      "noHistory": "No conversation history yet",
+      "noHistoryDescription": "Start chatting by sending the first message"
     }
   }
 }

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { History, Info, X, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface Conversation {
   id: string;
@@ -32,6 +33,7 @@ export function CharacterInfoSidebar({
   characterDescription,
   characterGreeting,
 }: CharacterInfoSidebarProps) {
+  const t = useTranslations("dashboard.characterInfo");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "history">("info");
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -106,7 +108,7 @@ export function CharacterInfoSidebar({
           )}
         >
           <Info className="h-4 w-4" />
-          Bilgi
+          {t("tabs.info")}
         </button>
         <button
           onClick={() => setActiveTab("history")}
@@ -118,7 +120,7 @@ export function CharacterInfoSidebar({
           )}
         >
           <History className="h-4 w-4" />
-          Geçmiş
+          {t("tabs.history")}
         </button>
       </div>
 
@@ -133,7 +135,9 @@ export function CharacterInfoSidebar({
               </Avatar>
               <div>
                 <h2 className="text-xl font-bold">{characterName}</h2>
-                <p className="text-sm text-muted-foreground">AI Karakter</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("aiCharacter")}
+                </p>
               </div>
             </div>
 
@@ -141,7 +145,7 @@ export function CharacterInfoSidebar({
 
             {/* Description */}
             <div>
-              <h3 className="text-sm font-semibold mb-2">Açıklama</h3>
+              <h3 className="text-sm font-semibold mb-2">{t("description")}</h3>
               <p className="text-sm text-muted-foreground">
                 {characterDescription}
               </p>
@@ -151,7 +155,9 @@ export function CharacterInfoSidebar({
 
             {/* First Message */}
             <div>
-              <h3 className="text-sm font-semibold mb-2">İlk Mesaj</h3>
+              <h3 className="text-sm font-semibold mb-2">
+                {t("firstMessage")}
+              </h3>
               <div className="bg-muted rounded-lg p-3">
                 <p className="text-sm">{characterGreeting}</p>
               </div>
@@ -172,7 +178,9 @@ export function CharacterInfoSidebar({
           </div>
         ) : (
           <div className="p-4 space-y-3">
-            <h3 className="text-sm font-semibold mb-3">Geçmiş Sohbetler</h3>
+            <h3 className="text-sm font-semibold mb-3">
+              {t("conversationHistory")}
+            </h3>
             {isLoading ? (
               <div className="space-y-2">
                 <div className="h-20 bg-muted rounded-lg animate-pulse" />
@@ -215,10 +223,10 @@ export function CharacterInfoSidebar({
               <div className="text-center py-8">
                 <History className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
                 <p className="text-sm text-muted-foreground">
-                  Henüz geçmiş sohbet yok
+                  {t("noHistory")}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  İlk mesajı göndererek sohbete başlayın
+                  {t("noHistoryDescription")}
                 </p>
               </div>
             )}

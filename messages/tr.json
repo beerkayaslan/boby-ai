@@ -144,6 +144,23 @@
         "title": "Geçmişi Görüntüleyin",
         "description": "Sağ sidebar'da \"Geçmiş\" sekmesine tıklayarak önceki sohbetlerinizi görüntüleyin."
       }
+    },
+    "sidebar": {
+      "characters": "Karakterler",
+      "noCharacters": "Henüz karakter yok",
+      "noCharactersDescription": "Aşağıdaki butona tıklayarak ilk karakterinizi oluşturun"
+    },
+    "characterInfo": {
+      "tabs": {
+        "info": "Bilgi",
+        "history": "Geçmiş"
+      },
+      "aiCharacter": "AI Karakter",
+      "description": "Açıklama",
+      "firstMessage": "İlk Mesaj",
+      "conversationHistory": "Geçmiş Sohbetler",
+      "noHistory": "Henüz geçmiş sohbet yok",
+      "noHistoryDescription": "İlk mesajı göndererek sohbete başlayın"
     }
   }
 }

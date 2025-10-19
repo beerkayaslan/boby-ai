@@ -15,6 +15,7 @@ import { LanguageSelector } from "./language-selector";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import logo from "@/assets/boby_ai_logo.jpeg";
+import { useTranslations } from "next-intl";
 
 interface Character {
   id: string;
@@ -24,6 +25,7 @@ interface Character {
 }
 
 export function Sidebar() {
+  const t = useTranslations("dashboard.sidebar");
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -75,7 +77,7 @@ export function Sidebar() {
       <div className="px-4 py-3 border-b">
         <h2 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
           <Users className="h-4 w-4" />
-          Karakterler
+          {t("characters")}
         </h2>
       </div>
 
@@ -94,10 +96,10 @@ export function Sidebar() {
             <div className="text-center py-8 px-4">
               <Users className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
               <p className="text-sm text-muted-foreground">
-                Henüz karakter yok
+                {t("noCharacters")}
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Aşağıdaki butona tıklayarak ilk karakterinizi oluşturun
+                {t("noCharactersDescription")}
               </p>
             </div>
           ) : (
