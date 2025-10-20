@@ -11,6 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
+import { useTranslations } from "next-intl";
 
 interface Message {
   id: string;
@@ -36,6 +37,7 @@ export function ChatInterface({
   characterDescription = "",
   existingConversationId = null,
 }: ChatInterfaceProps) {
+  const t = useTranslations("dashboard.chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -123,7 +125,7 @@ export function ChatInterface({
         .from("conversations")
         .insert({
           user_id: userId,
-          title: `${characterName} ile sohbet`,
+          title: t("conversationTitle", { characterName }),
           character_id: characterId,
         })
         .select()
@@ -162,7 +164,7 @@ export function ChatInterface({
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) {
-      console.error("Kullanıcı bulunamadı");
+      console.error(t("errors.userNotFound"));
       return;
     }
 
@@ -170,7 +172,7 @@ export function ChatInterface({
     if (!currentConversationId) {
       currentConversationId = await createConversation(user.id);
       if (!currentConversationId) {
-        console.error("Conversation oluşturulamadı");
+        console.error(t("errors.conversationCreateError"));
         return;
       }
       setConversationId(currentConversationId);
@@ -191,13 +193,19 @@ export function ChatInterface({
     setIsLoading(true);
 
     try {
+      const descriptionPart = characterDescription
+        ? `Character description: "${characterDescription}". `
+        : "";
+
+      const systemMessageContent = t("systemMessage", {
+        characterName,
+        description: descriptionPart,
+        greeting: characterGreeting,
+      });
+
       const systemMessage = {
         role: "system",
-        content: `Sen ${characterName} adlı bir karaktersin. ${
-          characterDescription
-            ? `Karakterin açıklaması: "${characterDescription}". `
-            : ""
-        }Karakterin karşılama mesajı: "${characterGreeting}". Bu rolle uyumlu şekilde yanıt ver. Türkçe konuş ve karakterin kişiliğini yansıt.`,
+        content: systemMessageContent,
       };
 
       const apiMessages = [
@@ -223,7 +231,7 @@ export function ChatInterface({
       });
 
       if (!response.ok) {
-        throw new Error("API isteği başarısız oldu");
+        throw new Error(t("errors.apiError"));
       }
 
       const reader = response.body?.getReader();
@@ -265,7 +273,7 @@ export function ChatInterface({
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.",
+        content: t("errors.errorMessage"),
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -293,7 +301,7 @@ export function ChatInterface({
         </Avatar>
         <div>
           <h2 className="font-semibold">{characterName}</h2>
-          <p className="text-xs text-muted-foreground">Online</p>
+          <p className="text-xs text-muted-foreground">{t("online")}</p>
         </div>
       </div>
 
@@ -491,7 +499,7 @@ export function ChatInterface({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
-            placeholder="Mesajınızı yazın..."
+            placeholder={t("inputPlaceholder")}
             disabled={isLoading}
             className="flex-1 h-12"
           />

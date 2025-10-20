@@ -187,6 +187,19 @@
         "userNotFound": "Kullanıcı oturumu bulunamadı",
         "createError": "Bir hata oluştu"
       }
+    },
+    "chat": {
+      "online": "Çevrimiçi",
+      "inputPlaceholder": "Mesajınızı yazın...",
+      "sendButton": "Gönder",
+      "conversationTitle": "{{characterName}} ile sohbet",
+      "errors": {
+        "userNotFound": "Kullanıcı bulunamadı",
+        "conversationCreateError": "Conversation oluşturulamadı",
+        "apiError": "API isteği başarısız oldu",
+        "errorMessage": "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin."
+      },
+      "systemMessage": "Sen {{characterName}} adlı bir karaktersin. {{description}}Karakterin karşılama mesajı: \"{{greeting}}\". Bu rolle uyumlu şekilde yanıt ver. Türkçe konuş ve karakterin kişiliğini yansıt."
     }
   }
 }

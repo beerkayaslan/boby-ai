@@ -187,6 +187,19 @@
         "userNotFound": "User session not found",
         "createError": "An error occurred"
       }
+    },
+    "chat": {
+      "online": "Online",
+      "inputPlaceholder": "Type your message...",
+      "sendButton": "Send",
+      "conversationTitle": "Chat with {{characterName}}",
+      "errors": {
+        "userNotFound": "User not found",
+        "conversationCreateError": "Could not create conversation",
+        "apiError": "API request failed",
+        "errorMessage": "Sorry, an error occurred. Please try again."
+      },
+      "systemMessage": "You are a character named {{characterName}}. {{description}}Character's greeting message: \"{{greeting}}\". Respond in a way that matches this role. Speak in English and reflect the character's personality."
     }
   }
 }
