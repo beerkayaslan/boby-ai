@@ -147,6 +147,7 @@
     },
     "sidebar": {
       "characters": "Characters",
+      "startChat": "Start Chat",
       "noCharacters": "No characters yet",
       "noCharactersDescription": "Click the button below to create your first character"
     },
@@ -203,6 +204,8 @@
     },
     "chat": {
       "online": "Online",
+      "aiAssistant": "AI Assistant",
+      "aiGreeting": "Hello! How can I help you?",
       "inputPlaceholder": "Type your message...",
       "sendButton": "Send",
       "conversationTitle": "Chat with {{characterName}}",

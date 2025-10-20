@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { ChatInterface } from "@/components/chat-interface";
 import { useTranslations } from "next-intl";
 
 export default function NewChatPage() {
-  const router = useRouter();
-  const t = useTranslations("dashboard");
-
-  useEffect(() => {
-    // Dashboard'a yönlendir - kullanıcı karakter seçsin
-    router.replace("/dashboard");
-  }, [router]);
+  const t = useTranslations("dashboard.chat");
 
   return (
-    <div className="flex items-center justify-center h-full">
-      <p className="text-muted-foreground">{t("redirecting")}</p>
+    <div className="flex-1 flex h-full">
+      <ChatInterface
+        characterId="new_chat"
+        characterName={t("aiAssistant")}
+        characterAvatar=""
+        characterGreeting={t("aiGreeting")}
+        characterDescription=""
+        existingConversationId={null}
+        disableSave={true}
+      />
     </div>
   );
 }

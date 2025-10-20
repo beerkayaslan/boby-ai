@@ -27,6 +27,7 @@ interface ChatInterfaceProps {
   characterGreeting: string;
   characterDescription?: string;
   existingConversationId?: string | null;
+  disableSave?: boolean;
 }
 
 export function ChatInterface({
@@ -36,6 +37,7 @@ export function ChatInterface({
   characterGreeting,
   characterDescription = "",
   existingConversationId = null,
+  disableSave = false,
 }: ChatInterfaceProps) {
   const t = useTranslations("dashboard.chat");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -169,7 +171,9 @@ export function ChatInterface({
     }
 
     let currentConversationId = conversationId;
-    if (!currentConversationId) {
+
+    // Only create conversation if save is enabled
+    if (!disableSave && !currentConversationId) {
       currentConversationId = await createConversation(user.id);
       if (!currentConversationId) {
         console.error(t("errors.conversationCreateError"));
@@ -187,7 +191,10 @@ export function ChatInterface({
 
     setMessages((prev) => [...prev, userMessage]);
 
-    await saveMessage(currentConversationId, user.id, inputValue, "user");
+    // Only save message if save is enabled and conversation exists
+    if (!disableSave && currentConversationId) {
+      await saveMessage(currentConversationId, user.id, inputValue, "user");
+    }
 
     setInputValue("");
     setIsLoading(true);
@@ -263,7 +270,8 @@ export function ChatInterface({
         }
       }
 
-      if (aiResponse && currentConversationId) {
+      // Only save AI message if save is enabled and conversation exists
+      if (!disableSave && aiResponse && currentConversationId) {
         await saveMessage(currentConversationId, user.id, aiResponse, "ai");
       }
     } catch (error) {

@@ -68,6 +68,20 @@ export function Sidebar() {
         <LanguageSelector />
       </div>
 
+      {/* Quick Chat Link */}
+      <div className="px-4 py-3 border-b">
+        <Link href="/dashboard/chat/new_chat">
+          <Button
+            variant={
+              pathname === "/dashboard/chat/new_chat" ? "default" : "ghost"
+            }
+            className="w-full justify-start"
+          >
+            {t("startChat")}
+          </Button>
+        </Link>
+      </div>
+
       {/* Characters Section */}
       <div className="px-4 py-3 border-b">
         <h2 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">

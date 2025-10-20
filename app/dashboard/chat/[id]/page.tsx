@@ -14,11 +14,25 @@ export default function ChatPage() {
   const [character, setCharacter] = useState<Character | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations("dashboard");
+  const tChat = useTranslations("dashboard.chat");
   const locale = useLocale();
 
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
+        // Check if it's new_chat - special case for direct AI chat
+        if (chatId === "new_chat") {
+          setCharacter({
+            id: "new_chat",
+            name: tChat("aiAssistant"),
+            avatar_url: "",
+            greeting: tChat("aiGreeting"),
+            description: "",
+          });
+          setIsLoading(false);
+          return;
+        }
+
         // First check if it's a default character
         const defaultCharacter = getDefaultCharacter(chatId, locale);
         if (defaultCharacter) {
@@ -50,7 +64,7 @@ export default function ChatPage() {
     };
 
     fetchCharacter();
-  }, [chatId, locale]);
+  }, [chatId, locale, tChat]);
 
   if (isLoading) {
     return (
@@ -85,15 +99,18 @@ export default function ChatPage() {
           characterAvatar={character.avatar_url}
           characterGreeting={character.greeting}
           characterDescription={character.description}
+          disableSave={character.id === "new_chat"}
         />
       </div>
-      <CharacterInfoSidebar
-        characterId={character.id}
-        characterName={character.name}
-        characterAvatar={character.avatar_url}
-        characterDescription={character.description}
-        characterGreeting={character.greeting}
-      />
+      {character.id !== "new_chat" && (
+        <CharacterInfoSidebar
+          characterId={character.id}
+          characterName={character.name}
+          characterAvatar={character.avatar_url}
+          characterDescription={character.description}
+          characterGreeting={character.greeting}
+        />
+      )}
     </div>
   );
 }

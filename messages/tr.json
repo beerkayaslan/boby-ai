@@ -147,6 +147,7 @@
     },
     "sidebar": {
       "characters": "Karakterler",
+      "startChat": "Sohbete Başla",
       "noCharacters": "Henüz karakter yok",
       "noCharactersDescription": "Aşağıdaki butona tıklayarak ilk karakterinizi oluşturun"
     },
@@ -203,6 +204,8 @@
     },
     "chat": {
       "online": "Çevrimiçi",
+      "aiAssistant": "AI Asistan",
+      "aiGreeting": "Merhaba! Size nasıl yardımcı olabilirim?",
       "inputPlaceholder": "Mesajınızı yazın...",
       "sendButton": "Gönder",
       "conversationTitle": "{{characterName}} ile sohbet",
