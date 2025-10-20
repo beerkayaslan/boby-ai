@@ -33,6 +33,7 @@ interface Character {
   name: string;
   avatar_url: string;
   description: string;
+  description_info?: string;
   greeting: string;
 }
 

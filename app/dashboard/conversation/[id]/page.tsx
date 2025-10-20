@@ -13,6 +13,7 @@ interface Character {
   avatar_url: string;
   greeting: string;
   description: string;
+  description_info?: string;
 }
 
 interface Conversation {

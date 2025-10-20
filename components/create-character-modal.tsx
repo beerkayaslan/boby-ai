@@ -21,6 +21,7 @@ import { useTranslations } from "next-intl";
 interface Character {
   name: string;
   description: string;
+  description_info?: string;
   greeting: string;
   avatar_url: string;
 }
@@ -36,6 +37,7 @@ export function CreateCharacterModal({
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [descriptionInfo, setDescriptionInfo] = useState("");
   const [greeting, setGreeting] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string>("");
@@ -145,6 +147,7 @@ export function CreateCharacterModal({
       const newCharacter = {
         name,
         description,
+        description_info: descriptionInfo,
         greeting,
         avatar_url: uploadedAvatarUrl,
       };
@@ -155,6 +158,7 @@ export function CreateCharacterModal({
 
       setName("");
       setDescription("");
+      setDescriptionInfo("");
       setGreeting("");
       setAvatarFile(null);
       setAvatarPreview("");
@@ -288,6 +292,18 @@ export function CreateCharacterModal({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
+                className="min-h-[100px]"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="description_info">
+                {t("descriptionInfoLabel")}
+              </Label>
+              <Textarea
+                id="description_info"
+                placeholder={t("descriptionInfoPlaceholder")}
+                value={descriptionInfo}
+                onChange={(e) => setDescriptionInfo(e.target.value)}
                 className="min-h-[100px]"
               />
             </div>

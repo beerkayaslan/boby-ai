@@ -3,6 +3,7 @@ export interface Character {
   name: string;
   avatar_url: string;
   description: string;
+  description_info?: string;
   greeting: string;
 }
 
@@ -12,11 +13,13 @@ interface CharacterTranslations {
   en: {
     name: string;
     description: string;
+    description_info?: string;
     greeting: string;
   };
   tr: {
     name: string;
     description: string;
+    description_info?: string;
     greeting: string;
   };
 }

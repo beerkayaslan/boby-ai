@@ -21,6 +21,7 @@ interface Character {
   id: string;
   name: string;
   description: string;
+  description_info?: string;
   greeting: string;
   avatar_url: string;
 }
@@ -41,6 +42,9 @@ export function EditCharacterModal({
   const t = useTranslations("dashboard.createCharacter");
   const [name, setName] = useState(character.name);
   const [description, setDescription] = useState(character.description);
+  const [descriptionInfo, setDescriptionInfo] = useState(
+    character.description_info || ""
+  );
   const [greeting, setGreeting] = useState(character.greeting);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string>(
@@ -54,6 +58,7 @@ export function EditCharacterModal({
   useEffect(() => {
     setName(character.name);
     setDescription(character.description);
+    setDescriptionInfo(character.description_info || "");
     setGreeting(character.greeting);
     setAvatarPreview(character.avatar_url);
     setAvatarFile(null);
@@ -162,6 +167,7 @@ export function EditCharacterModal({
       const updatedCharacter = {
         name,
         description,
+        description_info: descriptionInfo,
         greeting,
         avatar_url: uploadedAvatarUrl,
       };
@@ -285,6 +291,18 @@ export function EditCharacterModal({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
+                className="min-h-[100px]"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="description_info">
+                {t("descriptionInfoLabel")}
+              </Label>
+              <Textarea
+                id="description_info"
+                placeholder={t("descriptionInfoPlaceholder")}
+                value={descriptionInfo}
+                onChange={(e) => setDescriptionInfo(e.target.value)}
                 className="min-h-[100px]"
               />
             </div>
