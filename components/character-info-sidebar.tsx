@@ -2,20 +2,38 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { History, Info, X, MessageSquare } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { History, Info, X, MessageSquare, Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "next-intl";
+import { EditCharacterModal } from "@/components/edit-character-modal";
 
 interface Conversation {
   id: string;
   title: string;
   created_at: string;
   message_count?: number;
+}
+
+interface Character {
+  id: string;
+  name: string;
+  avatar_url: string;
+  description: string;
+  greeting: string;
 }
 
 interface CharacterInfoSidebarProps {
@@ -34,11 +52,55 @@ export function CharacterInfoSidebar({
   characterGreeting,
 }: CharacterInfoSidebarProps) {
   const t = useTranslations("dashboard.characterInfo");
+  const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "history">("info");
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const supabase = createClient();
+
+  const character: Character = {
+    id: characterId,
+    name: characterName,
+    avatar_url: characterAvatar,
+    description: characterDescription,
+    greeting: characterGreeting,
+  };
+
+  const handleDeleteCharacter = async () => {
+    setIsDeleting(true);
+    try {
+      // First delete all conversations related to this character
+      await supabase
+        .from("conversations")
+        .delete()
+        .eq("character_id", characterId);
+
+      // Then delete the character
+      const { error } = await supabase
+        .from("characters")
+        .delete()
+        .eq("id", characterId);
+
+      if (error) throw error;
+
+      // Redirect to dashboard after deletion
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Karakter silme hatası:", error);
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteDialogOpen(false);
+    }
+  };
+
+  const handleCharacterUpdated = () => {
+    // Refresh the page to show updated data
+    router.refresh();
+  };
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -165,16 +227,25 @@ export function CharacterInfoSidebar({
 
             <Separator />
 
-            {/* Stats */}
-            {/* <div>
-              <h3 className="text-sm font-semibold mb-3">İstatistikler</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Toplam Sohbet:</span>
-                  <span className="font-medium">{conversations.length}</span>
-                </div>
-              </div>
-            </div> */}
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setIsEditModalOpen(true)}
+              >
+                <Pencil className="h-4 w-4 mr-2" />
+                {t("editButton")}
+              </Button>
+              <Button
+                variant="destructive"
+                className="flex-1"
+                onClick={() => setIsDeleteDialogOpen(true)}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                {t("deleteButton")}
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="p-4 space-y-3">
@@ -271,6 +342,44 @@ export function CharacterInfoSidebar({
       <aside className="hidden md:flex w-80 border-l bg-background h-screen sticky top-0">
         <SidebarContent />
       </aside>
+
+      {/* Edit Character Modal */}
+      <EditCharacterModal
+        character={character}
+        open={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        onCharacterUpdated={handleCharacterUpdated}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("deleteConfirm.title")}</DialogTitle>
+            <DialogDescription>
+              {t("deleteConfirm.description")}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isDeleting}
+            >
+              {t("deleteConfirm.cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteCharacter}
+              disabled={isDeleting}
+            >
+              {isDeleting
+                ? t("deleteConfirm.deleting")
+                : t("deleteConfirm.delete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

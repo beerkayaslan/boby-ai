@@ -160,12 +160,25 @@
       "firstMessage": "İlk Mesaj",
       "conversationHistory": "Geçmiş Sohbetler",
       "noHistory": "Henüz geçmiş sohbet yok",
-      "noHistoryDescription": "İlk mesajı göndererek sohbete başlayın"
+      "noHistoryDescription": "İlk mesajı göndererek sohbete başlayın",
+      "editButton": "Düzenle",
+      "deleteButton": "Sil",
+      "deleteConfirm": {
+        "title": "Karakteri Sil",
+        "description": "Bu karakteri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm sohbet geçmişi silinecektir.",
+        "cancel": "İptal",
+        "delete": "Sil",
+        "deleting": "Siliniyor..."
+      }
     },
     "createCharacter": {
       "button": "Karakter Oluştur",
       "title": "Yeni Karakter Oluştur",
       "description": "AI karakterinizi oluşturun. İsim, açıklama ve karşılama mesajı ekleyin.",
+      "editTitle": "Karakteri Düzenle",
+      "editDescription": "Karakter bilgilerini güncelleyin.",
+      "updateButton": "Güncelle",
+      "updating": "Güncelleniyor...",
       "avatar": "Avatar",
       "uploadAvatar": "Avatar yükle",
       "clickOrDrag": "Tıkla veya sürükle-bırak",
