@@ -156,7 +156,7 @@
         "history": "History"
       },
       "aiCharacter": "AI Character",
-      "description": "Description",
+      "description": "Conversation Style",
       "firstMessage": "First Message",
       "conversationHistory": "Conversation History",
       "noHistory": "No conversation history yet",
