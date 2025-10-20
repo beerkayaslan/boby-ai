@@ -56,10 +56,10 @@ nvm use 22.18.0
 
 ```bash
 # Projeyi klonlayın
-git clone https://github.com/beerkayaslan/supabase-baslangic.git
+git clone https://github.com/beerkayaslan/boby-ai.git
 
 # Proje dizinine gidin
-cd supabase-baslangic
+cd boby-ai
 ```
 
 ### Adım 3: Bağımlılıkları Yükleme
@@ -110,7 +110,7 @@ npm run lint
 ## 📁 Proje Yapısı
 
 ```
-supabase-baslangic/
+boby-ai/
 ├── app/                          # Next.js App Router
 │   ├── api/                      # API rotaları
 │   │   └── chat/                 # Chat endpoint (AI sohbet işlemleri)
@@ -348,7 +348,7 @@ Katkılarınızı bekliyoruz! Lütfen bir pull request göndermeden önce:
 
 Proje Sahibi: [Berkay Aslan](https://github.com/beerkayaslan)
 
-Proje Linki: [https://github.com/beerkayaslan/supabase-baslangic](https://github.com/beerkayaslan/supabase-baslangic)
+Proje Linki: [https://github.com/beerkayaslan/boby-ai](https://github.com/beerkayaslan/boby-ai)
 
 ---
 
