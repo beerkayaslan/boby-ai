@@ -15,15 +15,12 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      const forwardedHost = request.headers.get("x-forwarded-host");
+      // const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";
 
       if (isLocalEnv) {
         // Local development ortamında
         return redirect(`${origin}${next}`);
-      } else if (forwardedHost) {
-        // Production ortamında load balancer arkasında
-        return redirect(`https://${forwardedHost}${next}`);
       } else {
         // Diğer durumlar
         return redirect(`${origin}${next}`);
