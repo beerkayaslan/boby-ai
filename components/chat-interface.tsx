@@ -193,21 +193,19 @@ export function ChatInterface({
     setIsLoading(true);
 
     try {
-      const descriptionPart = characterDescription
-        ? `Character description: "${characterDescription}". `
-        : "";
-
-      const systemMessageContent = t("systemMessage", {
-        characterName,
-        description: descriptionPart,
-        greeting: characterGreeting,
-      });
+      // Karakter kişiliğini system prompt olarak oluştur
+      // Bu, AI'nın her yanıtta karakterin kişiliğini korumasını sağlar
+      const systemMessageContent = characterDescription
+        ? `You are ${characterName}. ${characterDescription}\n\nImportant: Always stay in character and respond according to this personality description. Never break character.`
+        : `You are ${characterName}. Always respond in character.`;
 
       const systemMessage = {
         role: "system",
         content: systemMessageContent,
       };
 
+      // API'ye gönderilecek mesajları hazırla
+      // System message her zaman ilk sırada olmalı
       const apiMessages = [
         systemMessage,
         ...messages.map((msg) => ({
