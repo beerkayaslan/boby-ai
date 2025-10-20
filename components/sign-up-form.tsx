@@ -67,7 +67,7 @@ export function SignUpForm({
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/confirm`,
+          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm`,
         },
       });
       if (error) throw error;
