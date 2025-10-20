@@ -92,7 +92,7 @@ export function CharacterInfoSidebar({
 
       // Navigate to dashboard and force refresh
       router.push("/dashboard");
-      router.refresh();
+      window.location.reload();
     } catch (error) {
       console.error("Karakter silme hatası:", error);
     } finally {
@@ -105,8 +105,7 @@ export function CharacterInfoSidebar({
     setIsEditModalOpen(false);
 
     // Navigate to dashboard and force refresh
-    router.push("/dashboard");
-    router.refresh();
+    window.location.reload();
   };
 
   useEffect(() => {
