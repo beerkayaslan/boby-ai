@@ -108,6 +108,7 @@ export function Sidebar() {
                 <Link
                   key={character.id}
                   href={`/dashboard/chat/${character.id}`}
+                  className="!mb-2 !block"
                 >
                   <div
                     className={cn(
@@ -140,6 +141,7 @@ export function Sidebar() {
                     <Link
                       key={character.id}
                       href={`/dashboard/chat/${character.id}`}
+                      className="!mb-2 !block"
                     >
                       <div
                         className={cn(

@@ -273,6 +273,7 @@ export function CharacterInfoSidebar({
                   <Link
                     key={conversation.id}
                     href={`/dashboard/conversation/${conversation.id}`}
+                    className="!mb-2 !block"
                   >
                     <div className="border rounded-lg p-3 hover:bg-accent transition-colors cursor-pointer">
                       <div className="flex items-start justify-between mb-2">
