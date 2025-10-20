@@ -11,7 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface Message {
   id: string;
@@ -40,6 +40,7 @@ export function ChatInterface({
   disableSave = false,
 }: ChatInterfaceProps) {
   const t = useTranslations("dashboard.chat");
+  const locale = useLocale();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -123,11 +124,17 @@ export function ChatInterface({
 
   const createConversation = async (userId: string) => {
     try {
+      // Create a proper title with character name based on locale
+      const conversationTitle =
+        locale === "tr"
+          ? `${characterName} ile sohbet`
+          : `Chat with ${characterName}`;
+
       const { data, error } = await supabase
         .from("conversations")
         .insert({
           user_id: userId,
-          title: t("conversationTitle", { characterName }),
+          title: conversationTitle,
           character_id: characterId,
         })
         .select()
