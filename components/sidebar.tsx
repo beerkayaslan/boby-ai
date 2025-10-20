@@ -15,21 +15,17 @@ import { LanguageSelector } from "./language-selector";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import logo from "@/assets/boby_ai_logo.jpeg";
-import { useTranslations } from "next-intl";
-
-interface Character {
-  id: string;
-  name: string;
-  avatar_url: string;
-  description: string;
-}
+import { useTranslations, useLocale } from "next-intl";
+import { getDefaultCharacters, type Character } from "@/lib/default-characters";
 
 export function Sidebar() {
   const t = useTranslations("dashboard.sidebar");
+  const locale = useLocale();
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const defaultCharacters = getDefaultCharacters(locale);
 
   useEffect(() => {
     fetchCharacters();
@@ -91,41 +87,71 @@ export function Sidebar() {
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
               <div className="h-12 bg-muted rounded-lg animate-pulse" />
             </div>
-          ) : characters.length === 0 ? (
-            <div className="text-center py-8 px-4">
-              <Users className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
-              <p className="text-sm text-muted-foreground">
-                {t("noCharacters")}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {t("noCharactersDescription")}
-              </p>
-            </div>
           ) : (
-            characters.map((character) => (
-              <Link key={character.id} href={`/dashboard/chat/${character.id}`}>
-                <div
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-accent transition-colors cursor-pointer",
-                    pathname === `/dashboard/chat/${character.id}` &&
-                      "bg-accent"
-                  )}
+            <>
+              {/* Always show default characters first */}
+              {defaultCharacters.map((character) => (
+                <Link
+                  key={character.id}
+                  href={`/dashboard/chat/${character.id}`}
                 >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={character.avatar_url} />
-                    <AvatarFallback>{character.name[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 overflow-hidden">
-                    <p className="text-sm font-medium truncate">
-                      {character.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {character.description}
-                    </p>
+                  <div
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-accent transition-colors cursor-pointer",
+                      pathname === `/dashboard/chat/${character.id}` &&
+                        "bg-accent"
+                    )}
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={character.avatar_url} />
+                      <AvatarFallback>{character.name[0]}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 overflow-hidden">
+                      <p className="text-sm font-medium truncate">
+                        {character.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {character.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))
+                </Link>
+              ))}
+
+              {/* Show user's custom characters after default ones */}
+              {characters.length > 0 && (
+                <>
+                  <Separator className="my-2" />
+                  {characters.map((character) => (
+                    <Link
+                      key={character.id}
+                      href={`/dashboard/chat/${character.id}`}
+                    >
+                      <div
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-accent transition-colors cursor-pointer",
+                          pathname === `/dashboard/chat/${character.id}` &&
+                            "bg-accent"
+                        )}
+                      >
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={character.avatar_url} />
+                          <AvatarFallback>{character.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 overflow-hidden">
+                          <p className="text-sm font-medium truncate">
+                            {character.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {character.description}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </>
+              )}
+            </>
           )}
         </div>
       </ScrollArea>

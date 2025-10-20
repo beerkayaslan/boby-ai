@@ -5,15 +5,8 @@ import { useEffect, useState } from "react";
 import { ChatInterface } from "@/components/chat-interface";
 import { CharacterInfoSidebar } from "@/components/character-info-sidebar";
 import { createClient } from "@/lib/supabase/client";
-import { useTranslations } from "next-intl";
-
-interface Character {
-  id: string;
-  name: string;
-  avatar_url: string;
-  greeting: string;
-  description: string;
-}
+import { useTranslations, useLocale } from "next-intl";
+import { getDefaultCharacter, type Character } from "@/lib/default-characters";
 
 export default function ChatPage() {
   const params = useParams();
@@ -21,10 +14,20 @@ export default function ChatPage() {
   const [character, setCharacter] = useState<Character | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations("dashboard");
+  const locale = useLocale();
 
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
+        // First check if it's a default character
+        const defaultCharacter = getDefaultCharacter(chatId, locale);
+        if (defaultCharacter) {
+          setCharacter(defaultCharacter);
+          setIsLoading(false);
+          return;
+        }
+
+        // If not, try to fetch from database
         const supabase = createClient();
         const { data, error } = await supabase
           .from("characters")
@@ -47,7 +50,7 @@ export default function ChatPage() {
     };
 
     fetchCharacter();
-  }, [chatId]);
+  }, [chatId, locale]);
 
   if (isLoading) {
     return (
