@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 
 interface UserProfileProps {
   className?: string;
@@ -35,6 +36,7 @@ interface UserProfileProps {
 export function UserProfile({ className }: UserProfileProps) {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
+  const t = useTranslations("dashboard.userProfile");
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
@@ -49,7 +51,7 @@ export function UserProfile({ className }: UserProfileProps) {
       if (user) {
         setUserEmail(user.email || null);
         // Kullanıcı adını email'den al (@ işaretinden önceki kısım)
-        const name = user.email?.split("@")[0] || "Kullanıcı";
+        const name = user.email?.split("@")[0] || t("user");
         setUserName(name);
         // Kullanıcı avatar'ı varsa kullan, yoksa UI avatars'dan al
         setUserAvatar(
@@ -62,7 +64,7 @@ export function UserProfile({ className }: UserProfileProps) {
     };
 
     fetchUser();
-  }, []);
+  }, [t]);
 
   const handleLogout = async () => {
     const supabase = createClient();
@@ -107,7 +109,7 @@ export function UserProfile({ className }: UserProfileProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="start" side="top">
-          <DropdownMenuLabel>Hesabım</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem disabled>
             <UserIcon className="mr-2 h-4 w-4" />
@@ -117,7 +119,7 @@ export function UserProfile({ className }: UserProfileProps) {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Palette className="mr-2 h-4 w-4" />
-              <span>Tema</span>
+              <span>{t("theme")}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuRadioGroup
@@ -126,15 +128,15 @@ export function UserProfile({ className }: UserProfileProps) {
               >
                 <DropdownMenuRadioItem value="light">
                   <Sun className="mr-2 h-4 w-4" />
-                  <span>Light</span>
+                  <span>{t("light")}</span>
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="dark">
                   <Moon className="mr-2 h-4 w-4" />
-                  <span>Dark</span>
+                  <span>{t("dark")}</span>
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="system">
                   <Laptop className="mr-2 h-4 w-4" />
-                  <span>System</span>
+                  <span>{t("system")}</span>
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuSubContent>
@@ -145,7 +147,7 @@ export function UserProfile({ className }: UserProfileProps) {
             className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950/20 cursor-pointer"
           >
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Çıkış Yap</span>
+            <span>{t("logout")}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

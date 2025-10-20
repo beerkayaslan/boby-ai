@@ -200,6 +200,15 @@
         "errorMessage": "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin."
       },
       "systemMessage": "Sen {{characterName}} adlı bir karaktersin. {{description}}Karakterin karşılama mesajı: \"{{greeting}}\". Bu rolle uyumlu şekilde yanıt ver. Türkçe konuş ve karakterin kişiliğini yansıt."
+    },
+    "userProfile": {
+      "myAccount": "Hesabım",
+      "theme": "Tema",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem",
+      "logout": "Çıkış Yap",
+      "user": "Kullanıcı"
     }
   }
 }

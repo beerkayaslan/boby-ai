@@ -200,6 +200,15 @@
         "errorMessage": "Sorry, an error occurred. Please try again."
       },
       "systemMessage": "You are a character named {{characterName}}. {{description}}Character's greeting message: \"{{greeting}}\". Respond in a way that matches this role. Speak in English and reflect the character's personality."
+    },
+    "userProfile": {
+      "myAccount": "My Account",
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "logout": "Logout",
+      "user": "User"
     }
   }
 }
