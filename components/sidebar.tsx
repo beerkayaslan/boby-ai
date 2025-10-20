@@ -148,7 +148,7 @@ export function Sidebar() {
     <>
       {/* Mobile Header with Menu Button */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b">
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center  p-4">
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
