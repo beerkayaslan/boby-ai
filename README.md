@@ -1,4 +1,4 @@
-# 🤖 Boby AI - Yapay Zeka Destekli Karakter Sohbet Platformu
+# Boby AI - Yapay Zeka Destekli Karakter Sohbet Platformu
 
 Boby AI, yapay zeka teknolojisi ile güçlendirilmiş karakterlerle gerçek zamanlı sohbet deneyimi sunan modern bir web uygulamasıdır. Next.js 15, Supabase ve Groq AI ile geliştirilmiştir.
 
@@ -8,7 +8,7 @@ Boby AI, yapay zeka teknolojisi ile güçlendirilmiş karakterlerle gerçek zama
 ![Supabase](https://img.shields.io/badge/Supabase-Latest-green)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8)
 
-## 📋 İçindekiler
+## İçindekiler
 
 - [Özellikler](#-özellikler)
 - [Kurulum](#-kurulum)
@@ -18,18 +18,18 @@ Boby AI, yapay zeka teknolojisi ile güçlendirilmiş karakterlerle gerçek zama
 - [Tema Sistemi](#-tema-sistemi)
 - [Teknolojiler](#-teknolojiler)
 
-## ✨ Özellikler
+## Özellikler
 
-- 🤖 **AI Destekli Sohbetler**: Groq AI ile doğal ve akıcı konuşmalar
-- 👤 **Karakter Oluşturma**: Kendi AI karakterlerinizi tasarlayın
-- 📚 **Karakter Kütüphanesi**: Binlerce hazır karakterle tanışın
-- 🌍 **Çoklu Dil Desteği**: Türkçe ve İngilizce arayüz
-- 🎨 **Tema Seçenekleri**: Light, Dark ve System temaları
-- 🔐 **Güvenli Kimlik Doğrulama**: Supabase Auth ile e-posta/Google girişi
-- 💬 **Gerçek Zamanlı Chat**: Markdown desteği ile zengin mesajlaşma
-- 📱 **Responsive Tasarım**: Tüm cihazlarda mükemmel görünüm
+- **AI Destekli Sohbetler**: Groq AI ile doğal ve akıcı konuşmalar
+- **Karakter Oluşturma**: Kendi AI karakterlerinizi tasarlayın
+- **Karakter Kütüphanesi**: Binlerce hazır karakterle tanışın
+- **Çoklu Dil Desteği**: Türkçe ve İngilizce arayüz
+- **Tema Seçenekleri**: Light, Dark ve System temaları
+- **Güvenli Kimlik Doğrulama**: Supabase Auth ile e-posta/Google girişi
+- **Gerçek Zamanlı Chat**: Markdown desteği ile zengin mesajlaşma
+- **Responsive Tasarım**: Tüm cihazlarda mükemmel görünüm
 
-## 🚀 Kurulum
+## Kurulum
 
 ### Gereksinimler
 
@@ -107,7 +107,7 @@ npm start
 npm run lint
 ```
 
-## 📁 Proje Yapısı
+## Proje Yapısı
 
 ```
 boby-ai/
@@ -160,7 +160,7 @@ boby-ai/
 └── tsconfig.json                 # TypeScript yapılandırması
 ```
 
-## 📄 Sayfalar
+## Sayfalar
 
 ### Ana Sayfa (`/`)
 Landing page, uygulamanın özelliklerini sergiler:
@@ -242,8 +242,8 @@ Landing page, uygulamanın özelliklerini sergiler:
 Proje, **next-intl** kütüphanesi kullanarak çoklu dil desteği sunmaktadır.
 
 ### Desteklenen Diller
-- 🇹🇷 **Türkçe** (tr)
-- 🇬🇧 **İngilizce** (en)
+- **Türkçe** (tr)
+- **İngilizce** (en)
 
 ### Dil Değiştirme
 - Navigasyon barında dil seçici butonu
@@ -266,14 +266,14 @@ Her dosya aşağıdaki yapıyı takip eder:
 - `dashboard`: Dashboard ve sohbet arayüzü
 - `common`: Genel kullanılan metinler
 
-## 🎨 Tema Sistemi
+## Tema Sistemi
 
 Proje, **next-themes** kütüphanesi ile dinamik tema desteği sunar.
 
 ### Tema Seçenekleri
-- ☀️ **Light Mode**: Aydınlık tema
-- 🌙 **Dark Mode**: Karanlık tema
-- 💻 **System**: Sistem temasını takip eder
+- **Light Mode**: Aydınlık tema
+- **Dark Mode**: Karanlık tema
+- **System**: Sistem temasını takip eder
 
 ### Tema Özellikleri
 - Kullanıcı tercihini localStorage'da saklar
@@ -285,7 +285,7 @@ Proje, **next-themes** kütüphanesi ile dinamik tema desteği sunar.
 ### Tema Değiştirme
 Navigasyon barındaki tema butonu ile kolayca değiştirebilirsiniz.
 
-## 🛠 Teknolojiler
+## Teknolojiler
 
 ### Frontend
 - **Next.js 15**: React framework (App Router)
@@ -321,7 +321,7 @@ Navigasyon barındaki tema butonu ile kolayca değiştirebilirsiniz.
 - **Turbopack**: Hızlı bundling
 - **PostCSS**: CSS dönüşümleri
 
-## 🔐 Güvenlik
+## Güvenlik
 
 - Supabase Row Level Security (RLS) politikaları
 - Güvenli kimlik doğrulama akışları
@@ -330,11 +330,11 @@ Navigasyon barındaki tema butonu ile kolayca değiştirebilirsiniz.
 - XSS koruması
 - CSRF token'ları
 
-## 📝 Lisans
+## Lisans
 
 Bu proje [MIT lisansı](LICENSE) altında lisanslanmıştır.
 
-## 🤝 Katkıda Bulunma
+## Katkıda Bulunma
 
 Katkılarınızı bekliyoruz! Lütfen bir pull request göndermeden önce:
 
@@ -344,12 +344,8 @@ Katkılarınızı bekliyoruz! Lütfen bir pull request göndermeden önce:
 4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
 5. Pull Request açın
 
-## 📧 İletişim
+## İletişim
 
 Proje Sahibi: [Berkay Aslan](https://github.com/beerkayaslan)
 
 Proje Linki: [https://github.com/beerkayaslan/boby-ai](https://github.com/beerkayaslan/boby-ai)
-
----
-
-⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
