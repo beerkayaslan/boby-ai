@@ -88,7 +88,6 @@ export function LoginForm({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                {process.env.NEXT_PUBLIC_SITE_URL ?? "naber"}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
