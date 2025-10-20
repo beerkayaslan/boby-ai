@@ -87,18 +87,25 @@ export function CharacterInfoSidebar({
 
       if (error) throw error;
 
-      // Redirect to dashboard after deletion
+      // Close the dialog
+      setIsDeleteDialogOpen(false);
+
+      // Navigate to dashboard and force refresh
       router.push("/dashboard");
+      router.refresh();
     } catch (error) {
       console.error("Karakter silme hatası:", error);
     } finally {
       setIsDeleting(false);
-      setIsDeleteDialogOpen(false);
     }
   };
 
   const handleCharacterUpdated = () => {
-    // Refresh the page to show updated data
+    // Close the edit modal
+    setIsEditModalOpen(false);
+
+    // Navigate to dashboard and force refresh
+    router.push("/dashboard");
     router.refresh();
   };
 
