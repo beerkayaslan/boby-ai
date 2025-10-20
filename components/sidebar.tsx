@@ -58,7 +58,6 @@ export function Sidebar() {
   };
 
   const handleCharacterCreated = () => {
-    // Yeni karakter oluşturulduğunda listeyi yenile
     fetchCharacters();
   };
 

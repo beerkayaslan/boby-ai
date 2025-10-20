@@ -161,6 +161,32 @@
       "conversationHistory": "Geçmiş Sohbetler",
       "noHistory": "Henüz geçmiş sohbet yok",
       "noHistoryDescription": "İlk mesajı göndererek sohbete başlayın"
+    },
+    "createCharacter": {
+      "button": "Karakter Oluştur",
+      "title": "Yeni Karakter Oluştur",
+      "description": "AI karakterinizi oluşturun. İsim, açıklama ve karşılama mesajı ekleyin.",
+      "avatar": "Avatar",
+      "uploadAvatar": "Avatar yükle",
+      "clickOrDrag": "Tıkla veya sürükle-bırak",
+      "fileFormat": "PNG, JPG (max. 2MB)",
+      "changeButton": "Değiştir",
+      "removeButton": "Kaldır",
+      "characterName": "Karakter Adı",
+      "characterNamePlaceholder": "Örn: Einstein",
+      "descriptionLabel": "Açıklama",
+      "descriptionPlaceholder": "Karakterinizi tanımlayın...",
+      "firstMessage": "İlk Mesaj",
+      "firstMessagePlaceholder": "Karakterin ilk selamlaması...",
+      "cancelButton": "İptal",
+      "createButton": "Oluştur",
+      "creating": "Oluşturuluyor...",
+      "errors": {
+        "imageOnly": "Lütfen bir resim dosyası seçin",
+        "fileTooLarge": "Dosya boyutu 2MB'dan küçük olmalıdır",
+        "userNotFound": "Kullanıcı oturumu bulunamadı",
+        "createError": "Bir hata oluştu"
+      }
     }
   }
 }

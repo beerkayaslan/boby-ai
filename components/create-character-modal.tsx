@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, X, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface Character {
   name: string;
@@ -31,6 +32,7 @@ interface CreateCharacterModalProps {
 export function CreateCharacterModal({
   onCharacterCreated,
 }: CreateCharacterModalProps) {
+  const t = useTranslations("dashboard.createCharacter");
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -43,12 +45,12 @@ export function CreateCharacterModal({
 
   const processFile = (file: File) => {
     if (!file.type.startsWith("image/")) {
-      setUploadError("Lütfen bir resim dosyası seçin");
+      setUploadError(t("errors.imageOnly"));
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      setUploadError("Dosya boyutu 2MB'dan küçük olmalıdır");
+      setUploadError(t("errors.fileTooLarge"));
       return;
     }
 
@@ -129,7 +131,7 @@ export function CreateCharacterModal({
     } = await supabase.auth.getUser();
 
     if (!user) {
-      setUploadError("Kullanıcı oturumu bulunamadı");
+      setUploadError(t("errors.userNotFound"));
       setIsLoading(false);
       return;
     }
@@ -160,7 +162,7 @@ export function CreateCharacterModal({
     } catch (error) {
       console.error("Karakter oluşturma hatası:", error);
       setUploadError(
-        error instanceof Error ? error.message : "Bir hata oluştu"
+        error instanceof Error ? error.message : t("errors.createError")
       );
     } finally {
       setIsLoading(false);
@@ -187,21 +189,18 @@ export function CreateCharacterModal({
       <DialogTrigger asChild>
         <Button className="w-full" variant="outline">
           <Plus className="mr-2 h-4 w-4" />
-          Karakter Oluştur
+          {t("button")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[525px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Yeni Karakter Oluştur</DialogTitle>
-            <DialogDescription>
-              AI karakterinizi oluşturun. İsim, açıklama ve karşılama mesajı
-              ekleyin.
-            </DialogDescription>
+            <DialogTitle>{t("title")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="avatar">Avatar</Label>
+              <Label htmlFor="avatar">{t("avatar")}</Label>
 
               {/* Avatar Upload Area */}
               <div
@@ -233,7 +232,7 @@ export function CreateCharacterModal({
                         size="sm"
                         onClick={() => fileInputRef.current?.click()}
                       >
-                        Değiştir
+                        {t("changeButton")}
                       </Button>
                       <Button
                         type="button"
@@ -242,7 +241,7 @@ export function CreateCharacterModal({
                         onClick={handleRemoveAvatar}
                       >
                         <X className="h-4 w-4 mr-1" />
-                        Kaldır
+                        {t("removeButton")}
                       </Button>
                     </div>
                   </div>
@@ -255,12 +254,12 @@ export function CreateCharacterModal({
                       <Upload className="h-8 w-8 text-muted-foreground" />
                     </div>
                     <div className="text-center">
-                      <p className="text-sm font-medium">Avatar yükle</p>
+                      <p className="text-sm font-medium">{t("uploadAvatar")}</p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        Tıkla veya sürükle-bırak
+                        {t("clickOrDrag")}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        PNG, JPG (max. 2MB)
+                        {t("fileFormat")}
                       </p>
                     </div>
                   </div>
@@ -272,20 +271,20 @@ export function CreateCharacterModal({
               )}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="name">Karakter Adı *</Label>
+              <Label htmlFor="name">{t("characterName")} *</Label>
               <Input
                 id="name"
-                placeholder="Örn: Einstein"
+                placeholder={t("characterNamePlaceholder")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="description">Açıklama *</Label>
+              <Label htmlFor="description">{t("descriptionLabel")} *</Label>
               <Textarea
                 id="description"
-                placeholder="Karakterinizi tanımlayın..."
+                placeholder={t("descriptionPlaceholder")}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
@@ -293,10 +292,10 @@ export function CreateCharacterModal({
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="greeting">İlk Mesaj *</Label>
+              <Label htmlFor="greeting">{t("firstMessage")} *</Label>
               <Textarea
                 id="greeting"
-                placeholder="Karakterin ilk selamlaması..."
+                placeholder={t("firstMessagePlaceholder")}
                 value={greeting}
                 onChange={(e) => setGreeting(e.target.value)}
                 required
@@ -309,14 +308,14 @@ export function CreateCharacterModal({
               variant="outline"
               onClick={() => setOpen(false)}
             >
-              İptal
+              {t("cancelButton")}
             </Button>
             <Button
               type="submit"
               disabled={isLoading || !name || !description || !greeting}
               onClick={handleSubmit}
             >
-              {isLoading ? "Oluşturuluyor..." : "Oluştur"}
+              {isLoading ? t("creating") : t("createButton")}
             </Button>
           </DialogFooter>
         </form>

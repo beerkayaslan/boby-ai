@@ -161,6 +161,32 @@
       "conversationHistory": "Conversation History",
       "noHistory": "No conversation history yet",
       "noHistoryDescription": "Start chatting by sending the first message"
+    },
+    "createCharacter": {
+      "button": "Create Character",
+      "title": "Create New Character",
+      "description": "Create your AI character. Add name, description, and greeting message.",
+      "avatar": "Avatar",
+      "uploadAvatar": "Upload avatar",
+      "clickOrDrag": "Click or drag-and-drop",
+      "fileFormat": "PNG, JPG (max. 2MB)",
+      "changeButton": "Change",
+      "removeButton": "Remove",
+      "characterName": "Character Name",
+      "characterNamePlaceholder": "e.g., Einstein",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe your character...",
+      "firstMessage": "First Message",
+      "firstMessagePlaceholder": "Character's first greeting...",
+      "cancelButton": "Cancel",
+      "createButton": "Create",
+      "creating": "Creating...",
+      "errors": {
+        "imageOnly": "Please select an image file",
+        "fileTooLarge": "File size must be less than 2MB",
+        "userNotFound": "User session not found",
+        "createError": "An error occurred"
+      }
     }
   }
 }
