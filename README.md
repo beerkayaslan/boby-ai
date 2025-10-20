@@ -22,7 +22,6 @@ Boby AI, yapay zeka teknolojisi ile güçlendirilmiş karakterlerle gerçek zama
 
 - **AI Destekli Sohbetler**: Groq AI ile doğal ve akıcı konuşmalar
 - **Karakter Oluşturma**: Kendi AI karakterlerinizi tasarlayın
-- **Karakter Kütüphanesi**: Binlerce hazır karakterle tanışın
 - **Çoklu Dil Desteği**: Türkçe ve İngilizce arayüz
 - **Tema Seçenekleri**: Light, Dark ve System temaları
 - **Güvenli Kimlik Doğrulama**: Supabase Auth ile e-posta/Google girişi
@@ -67,22 +66,18 @@ cd boby-ai
 ```bash
 # npm kullanarak bağımlılıkları yükleyin
 npm install
-
-# veya yarn kullanabilirsiniz
-yarn install
 ```
 
 ### Adım 4: Ortam Değişkenlerini Ayarlama
 
-Projenin kök dizininde `.env.local` dosyası oluşturun ve aşağıdaki değişkenleri ekleyin:
+Projenin kök dizininde `.env` dosyası oluşturun ve aşağıdaki değişkenleri ekleyin:
 
 ```env
-# Supabase
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-
-# Groq AI
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-anon-key
+NODE_ENV=development
 GROQ_API_KEY=your-groq-api-key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
 ### Adım 5: Uygulamayı Başlatma
@@ -303,11 +298,9 @@ Navigasyon barındaki tema butonu ile kolayca değiştirebilirsiniz.
 - **Supabase**: Backend-as-a-Service
   - PostgreSQL veritabanı
   - Kimlik doğrulama (Auth)
-  - Row Level Security (RLS)
 - **Groq AI**: Hızlı AI çıkarım motoru
-  - Llama 3 modeli
+  - openai/gpt-oss-20b modeli
   - Düşük latency
-  - Yüksek throughput
 
 ### Markdown & Syntax Highlighting
 - **react-markdown**: Markdown render
@@ -323,26 +316,11 @@ Navigasyon barındaki tema butonu ile kolayca değiştirebilirsiniz.
 
 ## Güvenlik
 
-- Supabase Row Level Security (RLS) politikaları
 - Güvenli kimlik doğrulama akışları
 - Environment variables ile hassas bilgi yönetimi
 - HTTPS zorunluluğu (production)
 - XSS koruması
 - CSRF token'ları
-
-## Lisans
-
-Bu proje [MIT lisansı](LICENSE) altında lisanslanmıştır.
-
-## Katkıda Bulunma
-
-Katkılarınızı bekliyoruz! Lütfen bir pull request göndermeden önce:
-
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Değişikliklerinizi commit edin (`git commit -m 'feat: Add amazing feature'`)
-4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
-5. Pull Request açın
 
 ## İletişim
 
