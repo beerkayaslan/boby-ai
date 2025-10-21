@@ -1,7 +1,7 @@
 {
   "home": {
     "nav": {
-      "title": "Boby AI"
+      "title": "Character AI"
     },
     "hero": {
       "badge": "AI-Powered Character Chats",
@@ -13,7 +13,7 @@
       "dashboardButton": "Go to Dashboard"
     },
     "features": {
-      "title": "Why Boby AI?",
+      "title": "Why Character AI?",
       "subtitle": "Features powered by the most advanced AI technology",
       "naturalChats": {
         "title": "Natural Conversations",
@@ -34,7 +34,7 @@
       "button": "Sign Up for Free"
     },
     "footer": {
-      "copyright": "© 2025 Boby AI. All rights reserved."
+      "copyright": "© 2025 Character AI. All rights reserved."
     }
   },
   "auth": {
@@ -103,7 +103,7 @@
     }
   },
   "dashboard": {
-    "welcome": "Welcome to Boby AI",
+    "welcome": "Welcome to Character AI",
     "description": "Chat with AI characters, create new characters, and have amazing conversations.",
     "redirecting": "Redirecting...",
     "defaultGreeting": "Hello! How can I help you?",

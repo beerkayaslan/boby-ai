@@ -1,7 +1,7 @@
 {
   "home": {
     "nav": {
-      "title": "Boby AI"
+      "title": "Character AI"
     },
     "hero": {
       "badge": "AI Destekli Karakter Sohbetleri",
@@ -13,7 +13,7 @@
       "dashboardButton": "Dashboard'a Git"
     },
     "features": {
-      "title": "Neden Boby AI?",
+      "title": "Neden Character AI?",
       "subtitle": "En gelişmiş AI teknolojisi ile donatılmış özellikler",
       "naturalChats": {
         "title": "Doğal Sohbetler",
@@ -34,7 +34,7 @@
       "button": "Ücretsiz Kayıt Ol"
     },
     "footer": {
-      "copyright": "© 2025 Boby AI. Tüm hakları saklıdır."
+      "copyright": "© 2025 Character AI. Tüm hakları saklıdır."
     }
   },
   "auth": {
@@ -103,7 +103,7 @@
     }
   },
   "dashboard": {
-    "welcome": "Boby AI'a Hoş Geldiniz",
+    "welcome": "Character AI'a Hoş Geldiniz",
     "description": "AI karakterlerle sohbet edin, yeni karakterler oluşturun ve harika konuşmalar yapın.",
     "redirecting": "Yönlendiriliyor...",
     "defaultGreeting": "Merhaba! Size nasıl yardımcı olabilirim?",

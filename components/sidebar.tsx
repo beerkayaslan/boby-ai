@@ -13,8 +13,6 @@ import { CreateCharacterModal } from "./create-character-modal";
 import { UserProfile } from "./user-profile";
 import { LanguageSelector } from "./language-selector";
 import { createClient } from "@/lib/supabase/client";
-import Image from "next/image";
-import logo from "@/assets/boby_ai_logo.jpeg";
 import { useTranslations, useLocale } from "next-intl";
 import { getDefaultCharacters, type Character } from "@/lib/default-characters";
 
@@ -62,8 +60,7 @@ export function Sidebar() {
       {/* Logo - Desktop Only */}
       <div className="hidden md:flex p-4 items-center justify-between border-b">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Image src={logo} alt="Boby AI Logo" className="h-6 w-6" />
-          <h1 className="text-xl font-bold">Boby AI</h1>
+          <h1 className="text-xl font-bold">Character AI</h1>
         </Link>
         <LanguageSelector />
       </div>
@@ -204,8 +201,7 @@ export function Sidebar() {
               )}
             </Button>
             <Link href="/dashboard" className="flex items-center gap-2">
-              <Image src={logo} alt="Boby AI Logo" className="h-6 w-6" />
-              <h1 className="text-xl font-bold">Boby AI</h1>
+              <h1 className="text-xl font-bold">Character AI</h1>
             </Link>
           </div>
           <LanguageSelector />

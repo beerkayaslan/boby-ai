@@ -11,8 +11,8 @@ const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Boby AI",
-  description: "Boby AI",
+  title: "Character AI",
+  description: "Character AI",
 };
 
 const geistSans = Geist({
